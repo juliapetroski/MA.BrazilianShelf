@@ -52,11 +52,12 @@ Boundary_new <- mutate(Boundary_template,
                        SI_phyt = My_boundary_data$SI_Phytoplankton, 
                        SI_detritus = My_boundary_data$SI_Detritus,
                        ## Overhang
-                       DO_nitrate = My_overhang$DIN *
-                         (Boundary_template$D_intrate/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),    # Multiply DIN by the proportion of total DIN as nitrate
-                       DO_ammonia	= My_overhang$DIN *
-                         (Boundary_template$D_ammonia/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),
-                       DO_detritus = My_overhang$Detritus) %>% 
+                        DO_nitrate = My_overhang$DIN *
+                          (Boundary_template$D_intrate/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),    # Multiply DIN by the proportion of total DIN as nitrate
+                        DO_ammonia	= My_overhang$DIN *
+                          (Boundary_template$D_ammonia/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),
+                        DO_detritus = My_overhang$Detritus
+                       ) %>% 
   select(-c(SO_ammona, D_intrate))                                          # Fix Mike's typos
                        
 write.csv(Boundary_new, file = stringr::str_glue("./StrathE2E/{implementation}/2010-2019/Driving/chemistry_{toupper(implementation)}_2010-2019.csv"), row.names = F)
