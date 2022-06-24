@@ -1,7 +1,6 @@
 
 ## Set repeated commands specific to the project region
-## This version is parameterised for the Barents sea
-implementation <- "Brazilian Shelf"
+implementation <- "Brazilian_Shelf"
 
 library(sf)
 
