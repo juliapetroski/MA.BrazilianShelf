@@ -65,6 +65,7 @@ Physical_parameters[22,"Value"] <- -0.314                  # Parameter_2_for_rel
 Physical_parameters[23,"Value"] <- -0.435                  # Parameter_3_for_relationship_between_porosity_and_grainsize
 Physical_parameters[24,"Value"] <- 0.302                   # Parameter_4_for_relationship_between_porosity_and_grainsize
 
+ Physical_parameters[34,"Value"] <- 1                     # 1 to use the following porosity values, 0 calculates using the relationship above
 # Physical_parameters[35,"Value"] <- filter(My_sediment, Habitat == "Inshore Silt")$Porosity       # Defined_porosity_of_inshore_sediment_s1_(muddy)
 # Physical_parameters[36,"Value"] <- filter(My_sediment, Habitat == "Inshore Sand")$Porosity       # Defined_porosity_of_inshore_sediment_s2_(sandy)
 # Physical_parameters[37,"Value"] <- filter(My_sediment, Habitat == "Inshore Gravel")$Porosity     # Defined_porosity_of_inshore_sediment_s3_gravelly)
@@ -72,6 +73,7 @@ Physical_parameters[24,"Value"] <- 0.302                   # Parameter_4_for_rel
 # Physical_parameters[39,"Value"] <- filter(My_sediment, Habitat == "Offshore Sand")$Porosity      # Defined_porosity_of_offshore_sediment_d2_(sandy)
 # Physical_parameters[40,"Value"] <- filter(My_sediment, Habitat == "Offshore Gravel")$Porosity    # Defined_porosity_of_offshore_sediment_d3_(gravelly)
 # 
+# Physical_parameters[41,"Value"] <- 0                     # 1 to use the following permeability values, 0 calculates using the relationship above
 # Physical_parameters[42,"Value"] <- filter(My_sediment, Habitat == "Inshore Silt")$Permeability   # Defined_permeability_of_inshore_sediment_s1_(m-2)
 # Physical_parameters[43,"Value"] <- filter(My_sediment, Habitat == "Inshore Sand")$Permeability   # Defined_permeability_of_inshore_sediment_s2_(m-2)
 # Physical_parameters[44,"Value"] <- filter(My_sediment, Habitat == "Inshore Gravel")$Permeability # Defined_permeability_of_inshore_sediment_s3_(m-2)
