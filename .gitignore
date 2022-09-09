@@ -5,6 +5,13 @@
 /Figures/NEMO-MEDUSA/grids
 /Papers
 /R scripts/R-chive
+/Implementation doc/Files
+/Implementation doc/img
+/Implementation doc/@_Region file
+/Implementation doc/IMP.bib
+/Implementation doc/tweaks.css
+/Implementation doc/Domains.rds
+/Implementation doc/.Rhistory
 .Rproj.user
 .Rhistory
 .Ruserdata
