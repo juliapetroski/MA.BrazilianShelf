@@ -77,13 +77,11 @@ rm(Inshore_Ocean1, Inshore_Ocean2)
 
 #### expand polygon for sampling rivers ####
 
-river_expansion <- matrix(c(13, 73,
-                            0, 80,
-                            0, 85,
-                            63, 85,
-                            73, 77,
-                            30, 71,
-                            13, 73),
+river_expansion <- matrix(c(-42.2, -22,
+                            -42.2, -36,
+                            -50, -36,
+                            -55, -32.9,
+                            -42.2, -22),
                           ncol = 2, byrow = T) %>% 
   list() %>% 
   st_polygon() %>% 
