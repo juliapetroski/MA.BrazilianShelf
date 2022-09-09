@@ -24,7 +24,8 @@ all <- stack(raster("./Data/Sediment/Mud_strath.tif"),
   as.data.frame(xy = TRUE, na.rm = TRUE) %>%                     # Convert tifs to dataframes
   mutate(total_strath = Mud_strath + Sand_strath + Gravel_strath,# Infer rock from left overs
          Rock_strath = 100 - total_strath) %>%                   
-  pivot_longer(ends_with("strath"), names_to = "Fraction", values_to = "Cover") 
+  pivot_longer(ends_with("strath"), names_to = "Fraction", values_to = "Cover") %>% 
+  mutate(Fraction = str_replace(Fraction, "Mud", "Silt"))
 
 ggplot(all) +
   geom_raster(aes(x=x, y=y, fill = Cover)) +
