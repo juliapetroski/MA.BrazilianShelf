@@ -29,28 +29,51 @@ My_overhang <- readRDS("./Objects/overhang exchanges.rds") %>%
             Detritus = mean(Detritus, na.rm = T)) %>%  
   ungroup() %>% 
   arrange(Month)                                                                             # Order months ascending
-  
+
+#My_DIN_fix <- readRDS("./Objects/Ammonia to DIN.rds")
+My_DIN_fix <- readRDS("../Norwegian Basin/Objects/Ammonia to DIN.rds")                       # Dummy code as a place holder
+
+# My_river_N <- readRDS("./Objects/River nitrate and ammonia.rds") %>% 
+#   mutate(Ammonia = (Ammonia*(1/14.006720))*1e3,                                              # Convert mg/l to mmol/m^3
+#          Nitrate = (Nitrate*(1/14.006720))*1e3) 
+
+My_atmosphere <- readRDS("./Objects/Atmospheric N deposition.rds") %>% 
+  filter(between(Year, 2010, 2019)) %>%                                                      # Limit to reference period
+  group_by(Month, Oxidation_state, Shore,  Year) %>%
+  summarise(Measured = sum(Measured, na.rm = T)) %>%                                         # Sum across deposition states 
+  summarise(Measured = mean(Measured, na.rm = T)) %>%                                        # Average over years
+  ungroup() %>% 
+  pivot_wider(names_from = c(Shore, Oxidation_state), values_from = Measured) %>%            # Spread to match template
+  arrange(Month)                                                                             # Order months ascending
+
 #### Create new file ####
 
 Boundary_new <- mutate(Boundary_template, 
-                       SO_nitrate = My_boundary_data$SO_DIN * 
-                           (Boundary_template$SO_nitrate/(Boundary_template$SO_nitrate + Boundary_template$SO_ammona)),# Multiply DIN by the proportion of total DIN as nitrate
-                       SO_ammonia = My_boundary_data$SO_DIN * 
-                           (Boundary_template$SO_ammona/(Boundary_template$SO_nitrate + Boundary_template$SO_ammona)), # Multiply DIN by the proportion of total DIN as ammonium
+                       SO_nitrate = My_boundary_data$SO_DIN * (1-filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion), # Multiply DIN by the proportion of total DIN as nitrate
+                       SO_ammonia = My_boundary_data$SO_DIN * filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion, # Multiply DIN by the proportion of total DIN as ammonium
                        SO_phyt = My_boundary_data$SO_Phytoplankton,
                        SO_detritus = My_boundary_data$SO_Detritus,
-                       D_nitrate = My_boundary_data$D_DIN * 
-                         (Boundary_template$D_intrate/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),    # Multiply DIN by the proportion of total DIN as nitrate
-                       D_ammonia = My_boundary_data$D_DIN * 
-                         (Boundary_template$D_ammonia/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),    # Multiply DIN by the proportion of total DIN as ammonium
+                       D_nitrate = My_boundary_data$D_DIN * (1-filter(My_DIN_fix, Depth_layer == "Deep")$Proportion), # Multiply DIN by the proportion of total DIN as nitrate
+                       D_ammonia = My_boundary_data$D_DIN * filter(My_DIN_fix, Depth_layer == "Deep")$Proportion, # Multiply DIN by the proportion of total DIN as ammonium
                        D_phyt = My_boundary_data$D_Phytoplankton,
                        D_detritus = My_boundary_data$D_Detritus,
-                       SI_nitrate = My_boundary_data$SI_DIN * 
-                         (Boundary_template$SI_nitrate/(Boundary_template$SI_nitrate + Boundary_template$SI_ammonia)), # Multiply DIN by the proportion of total DIN as nitrate
-                       SI_ammonia = My_boundary_data$SI_DIN * 
-                         (Boundary_template$SI_ammonia/(Boundary_template$SI_nitrate + Boundary_template$SI_ammonia)), # Multiply DIN by the proportion of total DIN as ammonium
+                       SI_nitrate = My_boundary_data$SI_DIN * (1-filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion), # Multiply DIN by the proportion of total DIN as nitrate
+                       SI_ammonia = My_boundary_data$SI_DIN * filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion, # Multiply DIN by the proportion of total DIN as ammonium
                        SI_phyt = My_boundary_data$SI_Phytoplankton, 
                        SI_detritus = My_boundary_data$SI_Detritus,
+                       ## Rivers
+                       # RIV_nitrate = My_river_N$Nitrate,     
+                       # RIV_ammonia = My_river_N$Ammonia,          
+                       # RIV_detritus = 0,
+                       ## Atmosphere, daily deposition as monthly averages
+                       SO_ATM_nitrate_flux = My_atmosphere$Offshore_O,
+                       SO_ATM_ammonia_flux = My_atmosphere$Offshore_R,
+                       SI_ATM_nitrate_flux = My_atmosphere$Inshore_O,
+                       SI_ATM_ammonia_flux = My_atmosphere$Inshore_R, 
+                       SI_other_nitrate_flux = 0,   # Can be used for scenarios
+                       SI_other_ammonia_flux = 0,
+                       SO_other_nitrate_flux = 0,   # Can be used for scenarios
+                       SO_other_ammonia_flux = 0,
                        ## Overhang
                         DO_nitrate = My_overhang$DIN *
                           (Boundary_template$D_intrate/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),    # Multiply DIN by the proportion of total DIN as nitrate
