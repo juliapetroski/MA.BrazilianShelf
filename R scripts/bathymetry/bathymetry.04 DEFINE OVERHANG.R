@@ -59,3 +59,25 @@ overhang <- transmute(clipped,
 
 saveRDS(overhang, "./Objects/Overhang.rds")
 
+#### Update elevations in domain polygon for extracting from NEMO-MEDUSA ####
+
+## We need the volume calculations to be correct for exchanging water masses
+
+Domains <- readRDS("./Objects/Domains.rds")  
+
+GEBCO2 <- raster("../Shared data/GEBCO_2020.nc")
+
+Elevation <- crop(GEBCO2, st_transform(mask, crs = st_crs(GEBCO2)))
+
+Elevation_In <- Elevation ; Elevation_In[Elevation < -SDepth] <- -SDepth
+Elevation_Off <- Elevation ; Elevation_Off[Elevation < -DDepth] <- -DDepth
+
+Inshore_elevation <- exactextractr::exact_extract(Elevation_In, st_transform(filter(Domains, Shore == "Inshore"), st_crs(Elevation)), "mean")
+Offshore_elevation <- exactextractr::exact_extract(Elevation_Off, st_transform(filter(Domains, Shore == "Offshore"), st_crs(Elevation)), "mean")
+
+Domains <- mutate(Domains, Elevation = case_when(Shore == "Offshore" ~ Offshore_elevation,
+                                                 Shore == "Inshore" ~ Inshore_elevation))
+saveRDS(Domains, "./Objects/Domains.rds")
+
+
+
