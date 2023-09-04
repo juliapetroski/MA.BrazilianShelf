@@ -15,6 +15,6 @@ habitats <- readRDS("./Objects/Habitats.rds") %>%                          # Imp
 #### Values provided by case study ####
 
 result <- st_drop_geometry(habitats) %>% 
-  mutate(D50 = c(6.452, 0, 0.01288, 0.01606, 0.10964, 0.11423)) 
+  mutate(D50 = c(6.452, 6.452, 0.10964, 0.11423, 0.01288, 0.01606)) 
 
 saveRDS(result, "./Objects/Other habitat parameters.rds")

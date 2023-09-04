@@ -83,46 +83,82 @@ polygons <- st_difference(polygons, overhang) %>%                # Cut overhang 
   mutate(Habitat = str_remove(Habitat, "_strath"))               # Clean Habitat labels
 #sf_use_s2(T)
 
-plot(polygons)
+G_Y2 <- c(`Inshore Rock` = "#40333C", `Inshore Silt` = "#284481", `Inshore Sand` = "#9097CC", `Inshore Gravel` = "#4A8FA1",
+          `Offshore Rock` = "#d7c288", `Offshore Silt` = "#ffb700", `Offshore Sand` = "#FFD25F", `Offshore Gravel` = "#ffedbd", `Offshore Overhang` = '#b01313')
 
-saveRDS(polygons, "./Objects/Habitats.rds")
+ggplot() +                                                       # Check for overhang overlap with sediment data
+  geom_sf(data = polygons, aes(fill = paste(Shore, Habitat))) +
+  scale_fill_manual(values = (G_Y2)) +
+  theme_minimal()
+
+ggsave("./Figures/saltless/habitats dominant.png", bg = "white")
+
+#saveRDS(polygons, "./Objects/Habitats.rds")
 
 #### By median grain size ####
-# 
-# habitats <- raster("./Data/Sediment/sed_grain size.tif") %>% 
-#   as.data.frame(xy = TRUE, na.rm = TRUE) %>%
-#     mutate(Habitat = as.factor(case_when(sed_grain_size > 2 ~ "Gravel",
-#                                        between(sed_grain_size, 0.0625, 2) ~ "Sand",
-#                                        between(sed_grain_size, 0.00098, 0.0625) ~ "Silt",
-#                                        T ~ "Rock"))) %>% 
-#   st_as_sf(coords = c("x", "y"), remove = FALSE, crs = 4326)
-# 
-# 
-# ggplot(habitats) +
-#   geom_raster(aes(x=x, y=y, fill = sed_grain_size))
-# 
-# numeric_habitats <- mutate(habitats, Habitat = as.numeric(Habitat)) # Convert factor to numeric as st_rasterize expects numbers
-# 
-# sf_use_s2(FALSE)
-# 
-# polygons <- st_rasterize(numeric_habitats["Habitat"],            # Rasterize habiat labels   
-#                          nx = length(unique(habitats$x)),        # At the resolution of the original data
-#                          ny = length(unique(habitats$y))) %>% 
-#   st_as_sf(aspoints = FALSE, merge = TRUE) %>%                   # Merge pixels into contiguous polygons
-#   mutate(Habitat = factor(Habitat, labels = levels(habitats$Habitat))) %>% # Reinstate labels for factor
-#   group_by(Habitat) %>%  
-#   summarise(Habitat = Habitat[1])                                # Combine polygons into a single row per habitat
-# 
-# sf_use_s2(TRUE)
-# 
-# plot(polygons)
-# 
-# polygons <- st_intersection(st_make_valid(st_transform(polygons, crs = crs)), # Split sediment polygons along model zones
-#                             st_transform(domains, crs = crs)) %>% 
-#   select(-c(Elevation, area)) %>%                                # Drop excess data
-#   st_transform(crs = 4326)                                       # Switch back to mercator
-# 
-# saveRDS(polygons, "./Objects/Habitats.rds")
+
+habitats <- raster("./Data/Sediment/sed_strath_diameter.tif") %>%
+  as.data.frame(xy = TRUE, na.rm = TRUE) %>%
+    mutate(Habitat = as.factor(case_when(sed_strath_diameter < -1 ~ "Gravel",            # Units are in phi
+                                         between(sed_strath_diameter, -1, 4) ~ "Sand",
+                                         sed_strath_diameter > 4 ~ "Silt"))) %>%
+  st_as_sf(coords = c("x", "y"), remove = FALSE, crs = 4326)
+
+
+ggplot(habitats) +
+  geom_raster(aes(x=x, y=y, fill = sed_strath_diameter))
+
+numeric_habitats <- mutate(habitats, Habitat = as.numeric(Habitat)) # Convert factor to numeric as st_rasterize expects numbers
+
+sf_use_s2(FALSE)
+
+polygons <- st_rasterize(numeric_habitats["Habitat"],            # Rasterize habiat labels
+                         nx = length(unique(habitats$x)),        # At the resolution of the original data
+                         ny = length(unique(habitats$y))) %>%
+  st_as_sf(aspoints = FALSE, merge = TRUE) %>%                   # Merge pixels into contiguous polygons
+  mutate(Habitat = factor(Habitat, labels = levels(habitats$Habitat))) %>% # Reinstate labels for factor
+  group_by(Habitat) %>%
+  summarise(Habitat = Habitat[1])                                # Combine polygons into a single row per habitat
+
+sf_use_s2(TRUE)
+
+plot(polygons)
+
+polygons <- st_intersection(st_make_valid(st_transform(polygons, crs = crs)), # Split sediment polygons along model zones
+                            st_transform(domains, crs = crs)) %>%
+  dplyr::select(-c(Elevation, area)) %>%                                # Drop excess data
+  st_transform(crs = 4326)                                       # Switch back to mercator
+
+sf_use_s2(F)
+
+#### Accommodate overhang ####
+
+ggplot() +                                                       # Check for overhang overlap with sediment data
+  geom_sf(data = polygons, aes(fill = Habitat)) +
+  geom_sf(data = overhang, aes(fill = Habitat), colour = "red", alpha = 0.5) +
+  theme_minimal()
+
+polygons <- st_difference(polygons, overhang) %>%                # Cut overhang out of sediment
+  st_cast("POLYGON") %>%                                         # Expose each shape to allow removing whispy bits
+  mutate(clean = as.numeric(st_area(.))) %>%                     # Get the size of each shape, assuming whisps are small
+  filter(clean > 150) %>%                                        # Adjust to get rid of ghosts around the edge of the overhang
+  group_by(Habitat, Shore, area) %>%                             # Cheat way to return to "MULTIPOLYGON", and drop redundant columns
+  summarise(Elevation = mean(Elevation)) %>%                     # Clean
+  bind_rows(overhang) %>%                                        # Add overhang polygon
+  mutate(Habitat = str_remove(Habitat, "_strath"))               # Clean Habitat labels
+#sf_use_s2(T)
+
+G_Y2 <- c(`Inshore Rock` = "#40333C", `Inshore Silt` = "#284481", `Inshore Sand` = "#9097CC", `Inshore Gravel` = "#4A8FA1",
+          `Offshore Rock` = "#d7c288", `Offshore Silt` = "#ffb700", `Offshore Sand` = "#FFD25F", `Offshore Gravel` = "#ffedbd", `Offshore Overhang` = '#b01313')
+
+ggplot() +                                                       # Check for overhang overlap with sediment data
+  geom_sf(data = polygons, aes(fill = paste(Shore, Habitat))) +
+  scale_fill_manual(values = (G_Y2)) +
+  theme_minimal()
+
+ggsave("./Figures/saltless/habitats median.png", bg = "white")
+
+#saveRDS(polygons, "./Objects/Habitats.rds")
 
 #### Calculate proportion of model zones in each habitat ####
 
@@ -132,7 +168,7 @@ proportions <- polygons %>%
   mutate(Cover = Cover/sum(Cover)) %>%                           # Calculate the proportion of the model zone in each sediment polygon 
   rename(Bottom = Habitat)
 
-saveRDS(proportions, "./Objects/Sediment area proportions.rds")
+#saveRDS(proportions, "./Objects/Sediment area proportions.rds")
 
 ggplot(proportions) +
   geom_col(aes(x = Shore, y = Cover*100, fill = Bottom), position = "Dodge") +
@@ -142,4 +178,4 @@ ggplot(proportions) +
   viridis::scale_fill_viridis(discrete = T, name = "Sediment class:") +
   labs(y = "Cover (%)", x = NULL, caption = "Percentage of model domain in each habitat class")
 
-ggsave("./Figures/saltless/Habitat types.png", width = 16, height = 8, units = "cm")
+#ggsave("./Figures/saltless/Habitat types.png", width = 16, height = 8, units = "cm")
