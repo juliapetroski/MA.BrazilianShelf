@@ -29,13 +29,6 @@ My_light <- readRDS("./Objects/Air temp and light.rds") %>%
   ungroup() %>% 
   arrange(Month)                                                            # Order to match template
 
-My_AirTemp <- readRDS("./Objects/Air temp and light.rds") %>% 
-  filter(between(Year, 2010, 2019), grepl("Air", Type)) %>%                 # Limit to reference period and variable
-  group_by(Month, Shore) %>%                                                # Average across months
-  summarise(Measured = mean(Measured, na.rm = T)) %>% 
-  ungroup() %>% 
-  arrange(Month)                                                            # Order to match template
-
 My_H_Flows <- readRDS("./Objects/H-Flows.rds") %>% 
   filter(between(Year, 2010, 2019)) %>%                                     # Limit to reference period
   group_by(across(-c(Year, Flow))) %>%                                      # Group over everything except year and variable of interest
@@ -62,12 +55,16 @@ My_V_Flows <- readRDS("./Objects/SO_DO exchanges.rds") %>%
   summarise(Upwelling = mean(Upwelling, na.rm = T),
             Downwelling = mean(Downwelling, na.rm = T)) %>% 
   ungroup() %>% 
+  mutate(Upwelling = Upwelling/filter(My_scale, Shore == "Offshore" & slab_layer == "S")$Volume,
+         Downwelling = Downwelling/filter(My_scale, slab_layer == "D")$Volume) %>% # Scale flows by compartment volume
+  mutate(Upwelling = Upwelling * 86400,
+         Downwelling = Downwelling * 86400) %>%                             # Multiply for total daily from per second
   arrange(Month)                                                            # Order by month to match template
 
 My_volumes <- readRDS("./Objects/TS.rds") %>% 
   filter(between(Year, 2010, 2019)) %>%                                     # Limit to reference period
   group_by(Compartment, Month) %>%                                          # By compartment and month
-  summarise(across(Salinity_avg:Zonal_avg, mean, na.rm = T)) %>%         # Average across years for multiple columns
+  summarise(across(Salinity_avg:Zonal_avg, mean, na.rm = T)) %>%            # Average across years for multiple columns
   ungroup() %>% 
   arrange(Month)                                                            # Order by month to match template
 
@@ -112,7 +109,7 @@ My_Waves <- readRDS("./Objects/Significant wave height.rds") %>%
          Year = year(Date)) %>% 
   filter(between(Year, 2010, 2019)) %>%                                     # Limit to reference period
   group_by(Month) %>% 
-  summarise(Waves = mean(Waves, na.rm = T)) %>%                           # Average by month across years
+  summarise(Waves = mean(Waves, na.rm = T)) %>%                             # Average by month across years
   ungroup() %>% 
   arrange(Month)                                                            # Arrange to match template
 

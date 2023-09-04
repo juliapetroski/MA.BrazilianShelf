@@ -30,12 +30,9 @@ My_overhang <- readRDS("./Objects/overhang exchanges.rds") %>%
   ungroup() %>% 
   arrange(Month)                                                                             # Order months ascending
 
-#My_DIN_fix <- readRDS("./Objects/Ammonia to DIN.rds")
-My_DIN_fix <- readRDS("../Norwegian Basin/Objects/Ammonia to DIN.rds")                       # Dummy code as a place holder
+My_DIN_fix <- readRDS("./Objects/Ammonia to DIN.rds")
 
-# My_river_N <- readRDS("./Objects/River nitrate and ammonia.rds") %>% 
-#   mutate(Ammonia = (Ammonia*(1/14.006720))*1e3,                                              # Convert mg/l to mmol/m^3
-#          Nitrate = (Nitrate*(1/14.006720))*1e3) 
+My_river_N <- readRDS("./Objects/River N.rds")  
 
 My_atmosphere <- readRDS("./Objects/Atmospheric N deposition.rds") %>% 
   filter(between(Year, 2010, 2019)) %>%                                                      # Limit to reference period
@@ -48,8 +45,8 @@ My_atmosphere <- readRDS("./Objects/Atmospheric N deposition.rds") %>%
 
 #### Create new file ####
 
-Boundary_new <- mutate(Boundary_template, 
-                       SO_nitrate = My_boundary_data$SO_DIN * (1-filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion), # Multiply DIN by the proportion of total DIN as nitrate
+Boundary_new <- rename(Boundary_template, SO_ammonia = SO_ammona, D_nitrate = D_intrate) %>% # Fix Mike's typos
+                mutate(SO_nitrate = My_boundary_data$SO_DIN * (1-filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion), # Multiply DIN by the proportion of total DIN as nitrate
                        SO_ammonia = My_boundary_data$SO_DIN * filter(My_DIN_fix, Depth_layer == "Shallow")$Proportion, # Multiply DIN by the proportion of total DIN as ammonium
                        SO_phyt = My_boundary_data$SO_Phytoplankton,
                        SO_detritus = My_boundary_data$SO_Detritus,
@@ -62,9 +59,9 @@ Boundary_new <- mutate(Boundary_template,
                        SI_phyt = My_boundary_data$SI_Phytoplankton, 
                        SI_detritus = My_boundary_data$SI_Detritus,
                        ## Rivers
-                       # RIV_nitrate = My_river_N$Nitrate,     
-                       # RIV_ammonia = My_river_N$Ammonia,          
-                       # RIV_detritus = 0,
+                       RIV_nitrate = My_river_N$NO3,     
+                       RIV_ammonia = My_river_N$NH4,          
+                       RIV_detritus = 0,
                        ## Atmosphere, daily deposition as monthly averages
                        SO_ATM_nitrate_flux = My_atmosphere$Offshore_O,
                        SO_ATM_ammonia_flux = My_atmosphere$Offshore_R,
@@ -80,8 +77,7 @@ Boundary_new <- mutate(Boundary_template,
                         DO_ammonia	= My_overhang$DIN *
                           (Boundary_template$D_ammonia/(Boundary_template$D_intrate + Boundary_template$D_ammonia)),
                         DO_detritus = My_overhang$Detritus
-                       ) %>% 
-  select(-c(SO_ammona, D_intrate))                                          # Fix Mike's typos
+                       ) 
                        
 write.csv(Boundary_new, file = stringr::str_glue("./StrathE2E/{implementation}/2010-2019/Driving/chemistry_{toupper(implementation)}_2010-2019.csv"), row.names = F)
 

@@ -9,7 +9,7 @@ source("./R scripts/@_Region file.R")
 
 Physical_parameters <- read.csv(stringr::str_glue("./StrathE2E/{implementation}/2010-2019/Param/physical_parameters_CELTIC_SEA.csv")) # Read in example Physical drivers
         
-#### Update Spatial file ####
+#### Last minute data manipulation ####
 
 My_space <- readRDS("./Objects/Domains.rds") %>%                            # Calculate the volume of the three zones
   sf::st_drop_geometry() %>% 
@@ -22,10 +22,14 @@ My_space <- readRDS("./Objects/Domains.rds") %>%                            # Ca
   mutate(Volume = area * abs(Elevation))
 
 My_areas <- readRDS("./Objects/Sediment area proportions.rds") %>% 
-  mutate(Habitat = paste0(Shore, " ", Bottom))
-
+  complete(Shore, Bottom, fill = list(Cover = 0)) %>% 
+  mutate(Habitat = paste0(Shore, " ", Bottom)) %>% 
+  filter(Habitat != "Inshore Overhang")
+  
 My_sediment <- readRDS("./Objects/Other habitat parameters.rds") %>% 
   mutate(Habitat = paste0(Shore, " ", Habitat))
+
+#### Update Spatial file ####
 
 Physical_parameters[1,"Value"] <- filter(My_space, Shore == "Offshore", Depth == "S")$Elevation * -1 # Offshore_Shallow_layer_thickness_(m)
 Physical_parameters[2,"Value"] <- filter(My_space, Shore == "Offshore", Depth == "D")$Elevation * -1 # Offshore_Deep_layer_thickness_(m)
