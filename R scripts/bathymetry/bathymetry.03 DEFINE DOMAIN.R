@@ -94,8 +94,8 @@ GEBCO[GEBCO < - 500] <- -500                     # Use the overhang depth to cor
 
 Domains <- transmute(clipped, 
                      Shore = ifelse(Depth == 50, "Inshore", "Offshore"),
-                     area = as.numeric(st_area(shrunk)),
-                     Elevation = exactextractr::exact_extract(GEBCO, shrunk, "mean")) %>% 
+                      area = as.numeric(st_area(clipped)),
+                      Elevation = exactextractr::exact_extract(GEBCO, shrunk, "mean")) %>% 
   st_transform(crs = crs)
 
 saveRDS(Domains, "./Objects/Domains.rds")
