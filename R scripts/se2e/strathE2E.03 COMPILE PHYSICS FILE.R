@@ -14,11 +14,14 @@ Physics_template <- read.csv(stringr::str_glue("./StrathE2E/{implementation}/201
 
 My_scale <- readRDS("./Objects/Domains.rds") %>%                            # Calculate the volume of the three zones
   sf::st_drop_geometry() %>% 
-  mutate(S = c(T, T),
-         D = c(F, T)) %>% 
+  mutate(S = T,
+         D = case_when(Shore == "Inshore" ~ F,
+                       Shore == "Offshore" ~ T)) %>% 
   gather(key = "slab_layer", value = "Exists", S, D) %>% 
   filter(Exists == T) %>%
-  mutate(Elevation = c(Elevation[1], -SDepth, Elevation[3] + SDepth)) %>% 
+  mutate(Elevation = case_when(Shore == "Inshore" ~ Elevation,
+                               Shore == "Offshore" & slab_layer == "D" ~ Elevation + SDepth,
+                               Shore == "Offshore" & slab_layer == "S" ~ -SDepth,)) %>% 
   mutate(Volume = area * abs(Elevation)) %>% 
   dplyr::select(Shore, slab_layer, Volume)
 
