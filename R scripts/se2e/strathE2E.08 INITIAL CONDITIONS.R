@@ -1,5 +1,6 @@
 
 library(StrathE2E2)
+library(MiMeMo.tools)
 source("./R scripts/@_Region file.R")
 
 model <- e2e_read(implementation,"2010-2019", models.path = "StrathE2E/", results.path = "StrathE2E/Results/")
