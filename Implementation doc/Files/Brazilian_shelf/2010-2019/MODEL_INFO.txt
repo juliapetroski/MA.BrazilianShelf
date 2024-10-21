@@ -1,0 +1,14 @@
+Model region      : Brazil shelf
+StrathE2E2 version: 4.0.1
+
+Model variant name: 2010-2019
+Release date      : 10-10-2022
+Modified last: 14-10-2024
+Draft implementation for the EU Mission Atlantic project (https://missionatlantic.eu/)
+Driving data represent a climatological annual cycle for the period 2010-2019
+Hydrodynamic and nutrient driving data from NEMO-MEDUSA 0.25-degree model (https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2015JC011167)
+Atmospheric driving data from ???
+River volume driving data from NEMO-MEDUSA driving files
+River nutrient driving data from GRQA database
+Fishing data from a range of sources
+No documentation available yet
