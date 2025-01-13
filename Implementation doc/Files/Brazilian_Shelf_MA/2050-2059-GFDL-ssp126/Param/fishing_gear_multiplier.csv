@@ -1,0 +1,13 @@
+Gear_name,Gear_code,Multiplier_to_be_applied_to_activity
+Traps_(benthos),TB,1
+Pink-shrimp_trawlers,PT,1
+Seabob-shrimp_trawlers,ST,1
+Fish_trawl,FT,1
+Trap_nets,TN,1
+Purse_and_beach_seines,PBS,1
+Bottom_gillnet,BG,1
+Surface_gillnet,SG,1
+Bottom_longline,BLL,1
+Surface_longline_and_lines,SLL,1
+Others/multiple_gear,OG,1
+Pole_and_line,PL,1

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+/* Shrink the size of the font so that multiple authors and date can fit on the front cover */
+
+.author {
+  font-size: 14pt;
+  text-align: right;
+}
+
+.date {
+  font-size: 14pt;
+  text-align: right;
+}
+
+/* Shrink the title font size so the words fit nicely between the horizontal lines */
+
+#header>h1.title {
+  font-size: 35pt;
+}
+
+/* Also shrink top level headers so they fit nicely between lines on section headers */
+
+.section>h1 {
+  font-size: 32pt;
+}
+
+/* Set the margins around the table of contents to 0. Otherwise when TOC runs to a second page, the formatting for a "right page" takes over and squeezes the second page of entries */
+
+div.level1.toc.front-matter>ul {
+  margin-right: 0%;
+  margin-left: 0%;
+}
+
+div.level1.toc.front-matter>ul>li>ul {
+  margin-right: 0%;
+  margin-left: 0%;
+}
+
+/* Set the colours for a block quote which holds contact details */
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+/* Make a class to place warnings in the document while drafting */
+
+div.warn {
+  background-color: #DE9503;
+  border-radius: 20px;
+  padding: 30px;
+  font-size: 20pt;
+}
+
+/*Expand space between entries in the bibliography */
+
+div.csl-entry {
+  margin-bottom: 20px;
+}
+
+div.csl-entry {
+  font-family: 'Quicksand', sans-serif;
+}
+
+p, ul, ol {
+  text-align: justify;
+}
+
+body h3 {
+  text-align: justify!important;
+}
+
+body h4 {
+  text-align: justify!important;
+}
+
+.references {
+  text-align: justify!important;
+}
+
+.pagedjs_left_page p, .pagedjs_left_page h2, .pagedjs_left_page h3, .pagedjs_left_page h4, .pagedjs_left_page #refs {
+  margin-right: 7% !important;
+  margin-left: 7% !important
+}
+
+.pagedjs_right_page p, .pagedjs_right_page h2, .pagedjs_right_page h3, .pagedjs_right_page h4 , .pagedjs_right_page #refs {
+  margin-left: 7% !important;
+  margin-right: 7% !important
+}
+
+img {
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0 auto; 
+    margin-bottom: 1cm; 
+}
+
+table {
+    width: 100%; 
+    margin-bottom: 1cm; 
+}

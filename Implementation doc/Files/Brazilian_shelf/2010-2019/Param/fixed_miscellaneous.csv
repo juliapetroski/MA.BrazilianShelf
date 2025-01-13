@@ -1,9 +1,0 @@
-Value,Description
-3,Irradiance_at_maximum_carbon_uptake_by_kelp
-0.02,Minimum_NP_ratio_for_kelp
-0.15,Maximum_NP_ratio_for_kelp
-4,Irradiance_at_maximum_nutrient_uptake_by_phytoplankton
-1.2,Autotroph_Q10_value
-1.32,Heterotroph_uptake_Q10_value
-1.44,Metabolic_and_bacterial_Q10_value
-20,Q10_reference_temperature

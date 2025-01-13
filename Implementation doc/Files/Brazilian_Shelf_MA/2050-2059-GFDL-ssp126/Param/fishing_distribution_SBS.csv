@@ -1,0 +1,13 @@
+Gear_name,Gear_code,Habitat_s0,Habitat_s1,Habitat_s2,Habitat_s3,Habitat_d0,Habitat_d1,Habitat_d2,Habitat_d3,Habitat_DO
+Traps_(benthos),TB,0,0.13,0.27,0,0,0.2,0.4,0,0
+Pink-shrimp_trawlers,PT,0,0.05,0.15,0,0,0.4,0.3,0,0.1
+Seabob-shrimp_trawlers,ST,0,0.2,0.4,0,0,0.2,0.1,0,0.1
+Fish_trawl,FT,0,0.2,0.6,0,0,0.1,0.1,0,0
+Trap_nets,TN,0,0.5,0.5,0,0,0,0,0,0
+Purse_and_beach_seines,PBS,0,0.4,0.38,0.02,0,0.1,0.1,0,0
+Bottom_gillnet,BG,0,0.3,0.5,0.02,0,0.1,0.08,0,0
+Surface_gillnet,SG,0,0.3,0.5,0.02,0,0.1,0.08,0,0
+Bottom_longline,BLL,0,0,0.02,0,0,0.3,0.35,0.03,0.3
+Surface_longline_and_lines,SLL,0,0.01,0,0.01,0,0.04,0.04,0,0.9
+Others/multiple_gear,OG,0,0.2,0.6,0,0,0.1,0.1,0,0
+Pole_and_line,PL,0,0,0,0,0,0.35,0.15,0,0.5

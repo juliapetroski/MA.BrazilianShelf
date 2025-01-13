@@ -1,0 +1,13 @@
+Gear_id,Gear_name,Gear_to_which_linked,Linkage_coefficient,Comments
+1,Traps_(benthos),NA,NA,Independent of other gears
+2,Pink-shrimp_trawlers,NA,NA,Independent of other gears
+3,Seabob-shrimp_trawlers,NA,NA,Independent of other gears
+4,Fish_trawl,NA,NA,Independent of other gears
+5,Trap_nets,NA,NA,Independent of other gears
+6,Purse_and_beach_seines,NA,NA,Independent of other gears
+7,Bottom_gillnet,NA,NA,Independent of other gears
+8,Surface_gillnet,NA,NA,Independent of other gears
+9,Bottom_longline,NA,NA,Independent of other gears
+10,Surface_longline_and_lines,NA,NA,Independent of other gears
+11,Others/multiple_gear,NA,NA,Independent of other gears
+12,Pole_and_line,NA,NA,Independent of other gears

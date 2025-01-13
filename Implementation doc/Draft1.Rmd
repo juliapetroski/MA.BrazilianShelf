@@ -30,17 +30,18 @@ library(sf)
 library(gt)
 
 source("@_Region file.R")
-Period <- "2010-2019"
 
 table_nums <- captioner::captioner(prefix = "Table ")
 
 table.ref <- function(x) stringr::str_extract(table_nums(x), "[^:]*")
 
-model <- StrathE2E2::e2e_read(implementation, Period, models.path="Files") # Load implementation
+models <- StrathE2E2::e2e_ls("Files/")
 
-Area <- read.csv(str_glue("Files/{implementation}/{Period}/Param/event_timing_SBS.csv")) %>% 
+model <- StrathE2E2::e2e_read("Brazilian_Shelf_MA", "2010-2019-CNRM-ssp126", models.path = "Files")
+
+Area <- read.csv(str_glue("Files/Brazilian_Shelf_MA/2010-2019-CNRM-ssp126/Param/event_timing_SBS_MA_2010-2019-CNRM-ssp126.csv")) %>% 
   filter(str_detect(Description, "km2")) %>% 
-  .$Value                                                     # Get size of the model domain
+  .$Value
 
 Area
 ```
@@ -180,7 +181,7 @@ tab_habitat_proportions_cap <- table_nums(name = "tab_habitat_proportions",
 
 ```{r habitat_proportions}
 
-physical <- read.csv(str_glue("Files/{implementation}/{Period}/Param/physical_parameters_SBS.csv"))
+physical <- read.csv(str_glue("Files/Brazilian_Shelf_MA/2010-2019-CNRM-ssp126/Param/physical_parameters_SBS.csv"))
   
 proportions <- which(str_detect(physical$Description, "Area_proportion"))
 porosity <- which(str_detect(physical$Description, "Defined_porosity"))

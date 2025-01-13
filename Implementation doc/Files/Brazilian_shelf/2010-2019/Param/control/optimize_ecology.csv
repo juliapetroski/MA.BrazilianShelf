@@ -1,9 +1,0 @@
-Value,Description
-0,Axis_minimum_for_realtime_plot
-0.5,Axis_maximum_for_realtime_plot
-0.0002,CV_ie_SD/mean_for_preference_parameters
-0.0002,CV_ie_SD/mean_for_maximum_uptake_rates
-0.0007,CV_ie_SD/mean_for_half_saturation_coefficients
-0.00005,CV_ie_SD/mean_for_microbial_rates
-0.00005,CV_ie_SD/mean_for_density_dependent_mortality_parameters
-0.00005,CV_ie_SD/mean_for_other_parameters

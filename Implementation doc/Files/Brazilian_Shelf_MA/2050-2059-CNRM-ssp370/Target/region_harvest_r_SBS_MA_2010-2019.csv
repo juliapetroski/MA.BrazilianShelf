@@ -1,0 +1,11 @@
+Group,Regional_harvest_ratio,Comments
+Planktivorous_fish,9.0634034e-5,SBS_DATA_Catches_per_biomass
+Demersal_fish,2.35692055e-4,SBS_DATA_Catches_per_biomass
+Migratory_fish,1.709904562819478e-4,SBS_DATA_Catches_per_biomass
+Benthos_susp-dep,1.94238e-7,SBS_DATA_Catches_per_biomass
+Benthos_carn-scav,1.7731206e-5,SBS_DATA_Catches_per_biomass
+Zooplankton_carn,2.732786e-6,SBS_DATA_Catches_per_biomass
+Birds,1.6366095e-5,SBS_Rough_estimate_for_harvest_ratio_from_synthesis_of_bycatch_data
+Pinnipeds,2.6423775e-5,SBS_Rough_estimate_for_harvest_ratio_from_synthesis_of_bycatch_data
+Cetaceans,1.901991e-6,SBS_Rough_estimate_for_harvest_ratio_from_synthesis_of_bycatch_data
+Macrophytes,0,Not_harvest
