@@ -11,3 +11,5 @@ This work is part of Mission Atlantic. Other Mission Atlantic (MA.)
 repositories cover StrathE2E parameterisations for other geographical areas.
 The in house R packages used for these projects (*MiMeMo.tools*, *nemomedusR*, *slabR*)
 were developed under the MiMeMo project.
+
+This repository contains ongoing research - Do not use or share any material without prior consent from the authors.
