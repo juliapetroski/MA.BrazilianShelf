@@ -46,9 +46,10 @@ Area <- read.csv(str_glue("Files/Brazilian_Shelf_MA/2010-2019-CNRM-ssp126/Param/
 Area
 ```
 
-# Introduction {-}
+# Introduction {.unnumbered}
 
-This document describes the configuration of StrathE2E2 for the South Brazilian Shelf (SBS) and its parameterisation to enable stationary state fitting for both the baseline period (2010-2019) and future projections (2020-2070). These represent contrasting periods of environmental conditions.
+This document describes the configuration of StrathE2E2 for the South Brazilian Shelf (SBS) and its parameterisation to enable stationary state fitting for both the baseline period (2010-2019) and future projections (2020-2070).
+These represent contrasting periods of environmental conditions.
 
 Volumetric and seabed habitat data define the physical configuration of the system.
 We regard these as being fixed in time.
@@ -74,9 +75,10 @@ knitr::include_graphics("img/guilds.png")
 
 <br>
 
-# Model Domain {-}
+# Model Domain {.unnumbered}
 
-The South Brazilian Shelf is a Large Marine Ecosystem (LME) that extends along the Brazilian Exclusive Economic Zone, bounded to the north by Cabo Frio-RJ (22º15’S), and to the south by Chuí-RS (34ºS). The SBS is naturally defined by its geographic, oceanographic, and biological features and supports significant fisheries, making it an ideal region for ecosystem modelling.
+The South Brazilian Shelf is a Large Marine Ecosystem (LME) that extends along the Brazilian Exclusive Economic Zone, bounded to the north by Cabo Frio-RJ (22º15'S), and to the south by Chuí-RS (34ºS).
+The SBS is naturally defined by its geographic, oceanographic, and biological features and supports significant fisheries, making it an ideal region for ecosystem modelling.
 
 The model splits the domain into three zones, inshore/shallow, offshore/shallow, and offshore/deep (Figure \@ref(fig:overhang)).
 
@@ -84,24 +86,34 @@ The model splits the domain into three zones, inshore/shallow, offshore/shallow,
 knitr::include_graphics("img/overhang.png")
 ```
 
-The inshore/shallow zone covers waters shallower than `r SDepth` m or `r Distance` km from shore. The offshore zone covers the remaining area of the model domain (Figure \@ref(fig:habitats)). The offshore zone is divided further into a shallow and deep layer. The shallow layer represents water from the surface to `r SDepth` m depth, and shares a boundary with the inshore shallow zone. The offshore/deep zone covers the same area as the offshore/shallow zone, but represents water between `r SDepth` m and `r DDepth` m deep.
+The inshore/shallow zone covers waters shallower than `r SDepth` m or `r Distance` km from shore.
+The offshore zone covers the remaining area of the model domain (Figure \@ref(fig:habitats)).
+The offshore zone is divided further into a shallow and deep layer.
+The shallow layer represents water from the surface to `r SDepth` m depth, and shares a boundary with the inshore shallow zone.
+The offshore/deep zone covers the same area as the offshore/shallow zone, but represents water between `r SDepth` m and `r DDepth` m deep.
 There is a second internal boundary between the two offshore zones.
 
-The seafloor of the model domain is represented by 8 habitat types. There are three sediment classes - fine (muddy, 1), medium (sandy, 2) and coarse (gravel, 3). The fourth class (rock, 0) represents an absence of soft sediment and has different geochemical properties. These sediment classes are defined in both the inshore/shallow and offshore/deep zones, yielding 8 habitats (Figure \@ref(fig:habitats)). 
+The seafloor of the model domain is represented by 8 habitat types.
+There are three sediment classes - fine (muddy, 1), medium (sandy, 2) and coarse (gravel, 3).
+The fourth class (rock, 0) represents an absence of soft sediment and has different geochemical properties.
+These sediment classes are defined in both the inshore/shallow and offshore/deep zones, yielding 8 habitats (Figure \@ref(fig:habitats)).
 As of V.4, StrathE2E2 can represent an offshore "overhang" where open ocean does not contact the seafloor (Figure \@ref(fig:overhang)).
 We utilise this for the SBS implementation to include the fishing fleets just past the shelf edge and represent deepsea interactions.
 
-The perimeter of the model domain is defined by a `r ODepth` m depth contour and the Brazilian coastline. Open ocean boundaries occur wherever there is no coastline. In consultation with local collaborators, we imposed additional boundaries to limit the eastward extent of the model domain at 42.2ºW and Southward along 33.75ºS, 54.35ºW to 36ºS, 50ºW. This coincides with changes in the pattern of fishing effort according to Global Fishing Watch, and with the South Brazil Shelf LME. 
+The perimeter of the model domain is defined by a `r ODepth` m depth contour and the Brazilian coastline.
+Open ocean boundaries occur wherever there is no coastline.
+In consultation with local collaborators, we imposed additional boundaries to limit the eastward extent of the model domain at 42.2ºW and Southward along 33.75ºS, 54.35ºW to 36ºS, 50ºW.
+This coincides with changes in the pattern of fishing effort according to Global Fishing Watch, and with the South Brazil Shelf LME.
 
 ```{r habitats, echo=FALSE, fig.cap="Map of the model domain. StrathE2E defines seabed sediment habitats as inshore (blues) or offshore (yellows). Within each zone, three sediment classes are represented -- fine (muddy, 1), medium (sandy, 2), and coarse (gravel, 3). A fourth class (rock, 0) represents an absence of soft sediment. The overhang in the model domain which does not contact the sea floor is indicated in red. Sedimentary data are sourced from the REVIZEE Program (@tessler04) and the Brazilian navy's National Bank of Oceanographic Data (BNDO).", out.width = '100%'}
 knitr::include_graphics("img/habitats.png")
 ```
 
-# Fixed Physical {-}
+# Fixed Physical {.unnumbered}
 
-## Background {-}
+## Background {.unnumbered}
 
-#### Water column inshore/shallow and offshore/deep zone area proportions and layer thicknesses; seabed habitat area proportions and sediment properties: {-}
+#### Water column inshore/shallow and offshore/deep zone area proportions and layer thicknesses; seabed habitat area proportions and sediment properties: {.unnumbered}
 
 The depth boundary between deep and shallow layers was determined using vertical diffusivity values from NEMO-MEDUSA [@yool13] and mixed layer depth from Globcolour (www.globcolour.info/).
 Shallow-deep layer division was set at 50m, with a bottom depth of 500m for the deep layer.
@@ -109,7 +121,7 @@ The overhang extends up to a maximum depth of 500m, covering the spatial area be
 In the coastal zone, the polygon is defined for areas shallower than 50m or within 20 km of the coast.
 Seabed habitat proportions and sediment properties were derived from data by the REVIZEE Program [@tessler04] and BNDO.
 
-#### Parameters for relationship between median grain size, sediment porosity and permeability. Permeability is used as the basis for estimating hydraulic conductivity which is a parameter in the representation of sediment processes in the model: {-}
+#### Parameters for relationship between median grain size, sediment porosity and permeability. Permeability is used as the basis for estimating hydraulic conductivity which is a parameter in the representation of sediment processes in the model: {.unnumbered}
 
 Porosity (proportion by volume of interstitial water) and permeability of each sediment habitat were derived from median grain sizes using empirically-based relationships.
 
@@ -123,7 +135,7 @@ These relationships are coded into the StrathE2E2 R-package with the parameters 
 The parameters are probably a reasonable starting point for any future model of a new region.
 Derivation of the parameters is described in the following text sub-sections.
 
-#### Parameters for in-built relationship between sediment mud content, and slowly degrading (refractory) organic nitrogen content of seabed sediments (see description in this document): {-}
+#### Parameters for in-built relationship between sediment mud content, and slowly degrading (refractory) organic nitrogen content of seabed sediments (see description in this document): {.unnumbered}
 
 Values for each sediment type derived from parameterised relationships between total organic nitrogen content of sediments (TON%, percent by weight), mud content (mud%, percent by weight) and median grain size (D~50~, mm).
 
@@ -140,7 +152,7 @@ While there may be regional variations, these relationships serve as a reasonabl
 The StrathE2E2 R-package encodes these relationships, with the parameters specified in the CSV setup file.
 Derivation of the parameters is described in the following sub-sections.
 
-## Model area proportions {-}
+## Model area proportions {.unnumbered}
 
 ```{r area_proportions_cap}
 
@@ -212,7 +224,7 @@ data_frame(Habitat = c("S0", "S1", "S2", "S3", "D0", "D1", "D2", "D3", "OV"),
 
 ```
 
-## Daily disturbance rates {-}
+## Daily disturbance rates {.unnumbered}
 
 To calculate the natural disturbance rate, we needed depth-averaged current speeds (including tidal influence) and wave data.
 We used data products from Copernicus Marine Data; however, only surface tide components were available instead of depth-averaged values, and the depth-averaged current speeds did not include tides.
@@ -242,7 +254,7 @@ We also interpolated the depth-averaged currents and waves to match the hourly t
 
 We combined all data into a single dataset and applied functions from the `bedshear` package to calculate bed shear stress for the six habitat types.
 
-## Sediment porosity {-}
+## Sediment porosity {.unnumbered}
 
 Log-transformed porosity has been shown to have a sigmoidal relationship with log~10~(median grain size) (D~50~, mm) [@wilson18]:
 
@@ -270,7 +282,7 @@ data_frame(Parameter = paste0("P", 1:4),
 
 ```
 
-## Hydraulic conductivity {-}
+## Hydraulic conductivity {.unnumbered}
 
 Hydraulic conductivity (H, m.s^-1^) represents the ease with which fluids flow through the particle grain matrix.
 The related term 'permeability' (m^-2^) is a measure of the connectedness of the fluid filled void spaces between the particle grains.
@@ -284,62 +296,62 @@ Hence, $H = Permeability · 6.8004·10^6$ (m.s^-1^ at salinity 35 and temperatur
 Whole sediment permeability can be related to the proportion of sediment classed as mud (D~50~ \< 62 μm) [@pace21].
 In this model implementation, this relationship is utilized for internal calculations.
 
-## Sediment organic nitrogen content {-}
+## Sediment organic nitrogen content {.unnumbered}
 
 The magnitude of the static (refactory) organic nitrogen detritus pool in each sediment type is a required input to the model.
 The code includes an option to impute values from empirical relationships between total organic nitrogen (TON) and mud content, and between mud content and median grain size.
 This relationship has been documented in the North Sea implementation [@heath21].
 For the SBS implementation, the total nitrogen content is internally calculated and based on that relationship.
 
-# Fixed biological {-}
+# Fixed biological {.unnumbered}
 
-## Configuration parameters {-}
+## Configuration parameters {.unnumbered}
 
-### Assimilation efficiencies for each living guild in the model. {-}
+### Assimilation efficiencies for each living guild in the model. {.unnumbered}
 
 Fixed parameters defining the proportion of ingested mass of food that contributes to new body tissue, after subtracting defecation and the metabolic costs of digestion and synthesis [@heath12].
 
-### Biomass loss rates due to temperature-dependent metabolism for each living resource guild. {-}
+### Biomass loss rates due to temperature-dependent metabolism for each living resource guild. {.unnumbered}
 
 Proportion of biomass lost to ammonia per day due to non-feeding related metabolism at a given reference temperature.
 Rates for individual guilds broadly related to typical body mass of representative species.
 Temperature dependency following a Q~10~ function.
 
-### Q~10~ values for temperature dependent processes, and the Q~10~ reference temperature. {-}
+### Q~10~ values for temperature dependent processes, and the Q~10~ reference temperature. {.unnumbered}
 
 Separate Q10 values for autotrophic uptake of nutrient, heterotrophic feeding, and heterotrophic metabolism based on literature data.
 
-### Light intensity required to saturate autotrophic nutrient uptake. {-}
+### Light intensity required to saturate autotrophic nutrient uptake. {.unnumbered}
 
 Light saturation intensity for nutrient uptake cannot be treated as a fitted value since it is confounded with other uptake parameters.
 Value estimated from survey of laboratory experiments.
 
-### Annual weight specific fecundities of planktivorous and demersal fish guilds and the two benthos guilds in the model (suspension/deposit feeders and carnivore/scavenge feeders). {-}
+### Annual weight specific fecundities of planktivorous and demersal fish guilds and the two benthos guilds in the model (suspension/deposit feeders and carnivore/scavenge feeders). {.unnumbered}
 
 Guild-level values derived by surveying the literature.
 
-### Harvestable biomass density threshold for each resource guild. {-}
+### Harvestable biomass density threshold for each resource guild. {.unnumbered}
 
 The living resource guilds in the model represent a mixture of harvestable and non-harvestable species, especially the invertebrate guilds.
 The density threshold parameter sets a limit for the guild biomass below which the harvestable species are assumed to be exhausted.
 Values set from analysis of trawl, plankton and benthos survey species biomass compositions.
 
-### Minimum inedible biomass of carnivorous zooplankton. {-}
+### Minimum inedible biomass of carnivorous zooplankton. {.unnumbered}
 
 The carnivorous zooplankton guild is a key component of the food web, predated on by all the fish and top-predators.
 However it represents an extremely diverse range of fauna many of which are not edible in significant quantities by the guild predators, e.g. scyphomedusae.
 A minimum edible threshold is set to ensure that the guild as a whole cannot be extirpated by predation.
 The value is a rough estimate of scyphomedusae biomass.
 
-## Event timing parameters (not fitted) {-}
+## Event timing parameters (not fitted) {.unnumbered}
 
-### Spawning and recruitment start and end dates for fish and benthos {-}
+### Spawning and recruitment start and end dates for fish and benthos {.unnumbered}
 
 We gathered the spawning and recruitment periods for each guild based on literature regarding the main species, described below.
 In the model the annual weight-specific fecundity is assumed to be shed uniformly between the start and end dates of spawning.
 The annual cohort of larvae/juveniles of each fish and benthos guild is assumed to recruit to the settled stage at a uniform daily rate between the start and end dates.
 
-#### Planktivorous {-}
+#### Planktivorous {.unnumbered}
 
 For the planktivorous guild, we gathered data on the most caught species, Brazilian sardinella (*Sardinella brasiliensis*).
 The closed fishing season in SBS is set from November 1st to February 15th until 2019 (@ibama09), to cover the spawning period, and from June 15th to July 31th to protect the recruitment period.
@@ -352,7 +364,7 @@ Based on that, and to align with both closed seasons settled in SBS, we defined 
 knitr::include_graphics("img/sardine_spawning.png")
 ```
 
-#### Demersal {-}
+#### Demersal {.unnumbered}
 
 For the demersal guild, we focused on the key species in SBS, the Whitemouth croaker (*Micropogonias furnieri*).
 Although studies in the SBS lack specific dates, there is an indication of spawning during winter and spring, extending into summer (@isaac-vazzoler83), with peaks in August and November (Carneiro et al., 2005).
@@ -361,36 +373,43 @@ The recruitment persists uninterruptedly during the year, but it is strong betwe
 Based on these information revised, we defined a broad spawning and recruitment period from September 1st to April 1st, and March 1st to October 1st, respectively.
 Other commercially significant demersal species in the SBS, such as the Argentine croaker (*Umbrina canosai*), the King weakfish (*Macrodon ancylodon* and *Macrodon atricauda*), and the striped weakfish (*Cynoscion guatucupa*) also exhibits prolonged or multiple spawning episodes, especially from late winter to late spring (@haimovici97; @zaneti79; Haimovici et al., 2006, Cardoso and Haimovici, 2014, Haimovici and Cardoso, 2017), aligning with the inferred dates.
 
-#### CS Benthos {-}
+#### Carnivorous and scavengers benthos {.unnumbered}
 
-For the carnivorous and scavengers benthos guild, we inferred the reproductive cycle of shrimps, although it varies with species and location and lacks a scientific consensus in the region.
+We inferred the reproductive cycle of shrimps as representative of the whole guild, although it varies with species and location and lacks a scientific consensus in the region.
 In the model baseline period, the Brazilian shrimp regulations (IBAMA nº 189/2008) banned catching pink-shrimp (*Farfantepenaeus paulensis*) juveniles during their recruitment and spawning phase, between March to May.
 However, fishermen challenged this, suggesting that February to May was the correct period to address all shrimp species reproduction in the SBS.
 After discussions, the closed season was adjusted for January to April from 2023 onward (@sap22).
 Multiple recruitment year-round are observed in shrimp studies in Brazil (Branco et al., 2013; Martins et al., 2013; @heckler13), making complete protection through closed seasons challenging.
 @heckler13 highlights spawning peaks in February and March for the seabob shrimp *Xiphopenaeus kroyeri* during spring/summer, attributed to the South Atlantic Central Water Mass presence in Santos Bay, enhancing recruitment efficiency in summer compared to other periods.
 According to Fransozo et al. (2000), recruitment of *X. kroyeri* occurs throughout the year, but with greater intensity between November and March.
-Based on all that information compiled, we defined the spawning period from February 1st to April 1st and the recruitment during November 1st to March 31st.
+Based on all that information compiled, we defined the CS benthos guild spawning period from February 1st to April 1st and the recruitment during November 1st to March 31st.
 
-#### SD Benthos {-}
+#### Deposit and filter benthos {.unnumbered}
 
-Regarding the suspension and deposit feeders benthos, we combined the spawning period of mussel (*Perna perna*) and oyster (*Crassostrea brasiliana*).
+We combined the spawning period of mussel (*Perna perna*) and oyster (*Crassostrea brasiliana*).
 *P. perna* spawns from September 1st to December 31th in SBS, following the closed fisheries regulations (@ibama06).
-The recruitment of P. perna is prominent in the spring (late August to early November) (Ferreira et al., 2007).
+The recruitment of *P. perna* is prominent in the spring (late August to early November) (Ferreira et al., 2007).
 Other researchers point to the species' highest recruitment during early summer (@marenzi05) and November to January (@henriques04).
 As for *C. brasiliana*, fisheries close due to spawning from December 18th to February 18th (@sudepe86).
-To cover both species reproductive patterns we set the guild spawning period between September 1st to February 1st and the recruitment from August 1st to January 1st.
+To cover both species reproductive patterns we set the DF guild spawning period between September 1st to February 1st and the recruitment from August 1st to January 1st.
 
-### Extra-domain stock biomass of migratory, and the proportion invading the domain each year. Start and end dates for the annual invasion, and start and end dates for the emigration. (see description below). {-}
+### Extra-domain stock biomass of migratory, and the proportion invading the domain each year. Start and end dates for the annual invasion, and start and end dates for the emigration. (see description below). {.unnumbered}
 
-The main migratory fish species undertaking a seasonal transit in SBS is the skipjack tuna (*Katsuwonus pelamis*).
-Data on the Atlantic stock biomass of the skipjack and others relevant migratory fish, the proportion entering the SBS and the timing of the migration, were derived from literature and stock assessments (@jablonski85; @soares19; @arregui20; @iccat; @sau).
+The migratory fishes in the region are part of a broader Atlantic stock and perform transatlantic movements, utilizing multiple spawning grounds.
+The main migratory species making seasonal transits through SBS is the skipjack tuna (*Katsuwonus pelamis*), along with other tunas, tuna-like species and sharks.
+The data on the biomass of these migratory fish stocks, the proportion entering the SBS, and the timing of their migrations is detailed below.
+
+We assumed that there is no feedback between fishing and environmental conditions and the biomass and migration patterns.
+In this version of StrathE2E the timing of immigration and emigration, and the mass influx across the ocean boundary during the annual immigration phase are treated as period-specific external driving data.
+
+The model setup code calculates the parameters which are needed in the ecology model.
+These are the only fixed (i.e. non-fitted) ecology model parameters which are period-specific.
 
 ```{r tuna, echo=FALSE, out.width = '100%'}
 knitr::include_graphics("img/tuna.png")
 ```
 
-## Event timing parameters (fitted) {-}
+## Event timing parameters (fitted) {.unnumbered}
 
 The skipjack tuna (*Katsuwonus pelamis*) is a key migratory species in the SBS model, sustaining the pole-and-line fishery.
 In the region, a single stock unit utilises three geographic areas along the Brazilian coast (South, Southeast, and Northeast), with a north-south migration pattern in Brazil during summer and fall (@jablonski83, Soares et al., 2019).
@@ -402,143 +421,203 @@ Other migratory species, such as albacore tuna (*Thunnus alalunga*), spawn betwe
 Yellowfin tuna (*Thunnus albacares*) also undergoes semi-annual migrations between the equatorial zones and the southern and southeastern coasts of Brazil (Zavala-Camin, 1978).
 Similarly, bluefish (*Pomatomus saltatrix*) exhibit seasonal migration patterns, moving to warmer waters during the winter and cooler waters during the summer (CEPSUL, 2009; Haimovici et al., 1996).
 A portion of the adult populations of tunas, tuna-like species, and sharks appears to be resident in the SBS, remaining in the region without undertaking long-distance migrations (Pedrosa, 2011; @arregui20).
-Based on this information, we considered that the migratory guild exhibits a seasonal migration pattern, moving to warmer waters in winter and cooler waters in summer.
-The immigration period was set from October 1st to May 31th and emigration from June 1st to August 31th.
-We also assumed that 40% of the population remains within the model domain even during the immigration period, representing the residual proportion of peak abundance in the SBS.
 
-For the purposes of the model, we assume that there is no feedback between fishing and environmental conditions and the biomass and migration patterns.
-In this version of StrathE2E the timing of immigration and emigration, and the mass influx across the ocean boundary during the annual immigration phase are treated as period-specific external driving data.
+We utilized outputs from the SEAPODYM model to characterize the movement dynamics of tunas in the Atlantic Ocean, as part of research conducted within the Mission Atlantic project [Merillet et al.
+X (SOURCE)].
+These outputs were based on the same four climate projections derived from NEMO-ERSEM physical outputs used in the StrathE2E driving data (see section X).
+The projections are driven by two SSPs (SSP3-7.0 and SSP1-2.6) and two CMIP6 models (CNRM-CM6-1-HR and GFDL-ESM4).
+Two species, skipjack tuna (*K. pelamis*) and albacore tuna (*T. alalunga*), were modeled using SEAPODYM-MASS, an age-structured dynamic population model that accounts for prey availability.
+Historical data were provided from 1990 to 2014, along with projections from 2015 to 2070, on a monthly basis and averaged across the SBS model domain.
+Data included biomass estimates for each SSP, model, and total stock biomass in the Atlantic.
 
-To estimate the proportion of the migratory stock entering the SBS, we assessed the biomass in both the Atlantic Ocean and the SBS domain.
-There are currently no official stock assessments from the Brazilian government for tuna or shark species in the SBS.
-Part of the management of migratory fish stocks falls under the International Commission for the Conservation of Atlantic Tunas (ICCAT), which relies on a consensus-based decision-making process among its member nations.
-To approximate the migratory fish biomass within the SBS, we compiled data for 34 taxa, including key species such as the aforementioned skipjack, yellowfin, bigeye, and albacore tuna, along with Atlantic sailfish (*Istiophorus albicans*), swordfish (*Xiphias gladius*), dolphinfish (*Coryphaena hippurus*), white marlin (*Kajikia albida*), blue marlin (*Makaira nigricans*), wahoo (*Acanthocybium solandri*), several shark species (*Carcharhinus obscurus*, *C. limbatus*, *C. signatus*, *Galeocerdo cuvier*, *Isurus oxyrinchus*, *Mustelus schmitti*, *Prionace glauca*, *Sphyrna zygaena*, *S. lewini*, *Squalus spp.*, *Squatina spp.*), among others.
-Biomass data were sourced from previous Ecopath models in the SBS (@gasalla07; @bornatowski18; Rupp and Bornatowski, 2021), as well as stock assessments from SAU, which are largely based on ICCAT data and the CMSY method (@sau; see www.seaaroundus.org/cmsy-method for details).
-SAU biomass estimates are available for the period from 2010 to 2018, and we used average values for our calculations.
+To establish the baseline period from 2010-2019, historical data from 2010--2014 were combined with projections from 2015--2019.
+The remaining time series were divided into decadal intervals from 2020--2029 to 2060--2069 for each of the four climate projections.
 
-When utilising parameters from Ecopath models, we adjusted biomass estimates to reflect the specific area size of our study.
-For SAU stock assessments, we ensured that the marine ecoregion aligned with the SBS; in cases where the assessment covered a broader region (e.g., the South Atlantic), we adjusted biomass values using catch ratios of the broader region relative to our SBS catches.
-For skipjack tuna specifically, we relied on local sources, such as Cardoso et al. (2020), which provided a stock assessment for 2020.
+To identify the start and end days for annual immigration and emigration periods, we interpolated data to obtain daily values averaged by decade for each projection.
+To synchronize with the StrathE2E annual cycle, each month was standardized to 30 days.
+Seasonal cycles for each decade and projections were extracted using the decompose function in R, excluding trends and random components (see <https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/decompose>).
+Immigration and emigration periods were defined as the days when biomass increased from the 20th to 80th percentile and decreased from the 80th to 20th percentile, respectively.
 
-As a result, we estimated an annual migratory fish biomass of 570275 tons or 1.83 t.kmˆ-2ˆ in the SBS.
-The Atlantic Ocean migratory fish biomass was estimated using available stock assessments for the main 18 species from SAU and ICCAT, resulting in a rough estimate of 3538302 tons.
-Thus, the calculated proportion of the migratory stock entering the SBS was 16.12%.
-
-The model setup code calculates the parameters which are needed in the ecology model.
-These are the only fixed (i.e. non-fitted) ecology model parameters which are period-specific.
-
-```{r migrant_cap}
-
-tab_migrant_cap <- table_nums(name = "tab_migrant", 
-    caption = "Biological event timing parameters, constant across the 2010-2070 time period. The data are processed in the model setup to calculate the immigration flux parameters needed in the ecology model. Spawning and recruitment durations were established assuming a month with 30 days.")
+```{r migration, echo=FALSE, fig.align='center', fig.cap="Seasonal component of migratory fish biomass derived from SEAPODYM model outputs. Points A to D indicate the start and end days of the year of immigration and emigration for each decade (2010–2019 to 2060–2069), under two climate scenarios (SSP1-2.6 and SSP3-7.0) and two forcing models (CNRM and GFDL).", out.width = '120%'}
+knitr::include_graphics("img/migration_SBS.png")
 ```
 
-`r table_nums("tab_migrant")`
+SEAPODYM outputs appeared to underestimate biomass in the SBS domain. Discussions with the model's authors suggested that parameterization favored skipjack biomass in tropical and equatorial regions. To address this, we scaled the local skipjack biomass using a factor derived from the South Western Atlantic stock assessment (Cardoso et al., 2020), aligning modeled outputs with baseline values (2010--2020), which indicated an annual average biomass of 120,000 tonnes. The scaling factor (α) was calculated for the baseline period for each model and SSP and applied consistently across all decades.
 
-```{r tab_migrant, fig.cap = tab_migrant_cap}
+The scaling equation below was applied in all Mission Atlantic case studies to adjusted SEAPODYM outputs to better reflect local stock assessments. For domains with such assessments (e.g., SBS), α was used to adjust skipjack or albacore biomass. Where no local assessments were available, α defaulted to 1. Additionally, another scaling factor (\(\lambda\)) was applied in cases where skipjack and albacore alone do not represent the entire migratory guild, as in the SBS domain.
+
+The scaled biomass was calculated as:
+
+\[\alpha = \frac{\ln\left(\frac{x(t)}{X(t)}\right)}{\ln(P)}, \quad \lambda = \frac{Y(t)}{X(t)}\]
+
+\[scaled \ biomass(t) = [P]^\alpha \times X(t) \times \lambda\]
+
+Where:
+
+-\(P\) is the proportion of the Atlantic stock entering the model domain annually, from SEAPODYM  
+-\(\alpha\) is the scaling factor to adjust the local biomass relative to known stock assessments  
+-\(X(t)\) is the Atlantic stock from SEAPODYM  
+-\(Y(t)\) is the Atlantic biomass from stock assessments  
+-\(x(t)\) is the local biomass from stock assessments  
+-\(\lambda\) is the scaling factor to the others Atlantic stocks that may enter the model domain
+
+In the case of SBS, \(\lambda\) was derived from stock assessments from the 2010s. Part of the management of Atlantic migratory fish stocks falls under the International Commission for the Conservation of Atlantic Tunas (ICCAT), which relies on a consensus-based decision-making process among its member nations. To estimate the ‘global’ stock biomass of migratory fish assumed to enter the model domain, we compiled data for 34 taxa, including key species such as the aforementioned skipjack, yellowfin, bigeye, and albacore tuna, along with Atlantic sailfish (*Istiophorus albicans*), swordfish (*Xiphias gladius*), dolphinfish (*Coryphaena hippurus*), white marlin (*Kajikia albida*), blue marlin (*Makaira nigricans*), wahoo (*Acanthocybium solandri*), several shark species (*Carcharhinus obscurus, C. limbatus, C. signatus, Galeocerdo cuvier, Isurus oxyrinchus, Mustelus schmitti, Prionace glauca, Sphyrna zygaena, S. lewini, Squalus spp., Squatina spp.*), among others. Biomass data were sourced from Sea Around Us (SAU), which utilizes ICCAT data and the CMSY method (@sau; see www.seaaroundus.org/cmsy-method for details). SAU estimates, available for 2010–2018, were averaged for this analysis. The combined biomass of the 20 key stocks in the Atlantic, which may enter the SBS, totaled 5998133.35 tons. 
+
+The scaling factor  was calculated by dividing the global migratory biomass by SEAPODYM's skipjack and albacore stock estimates. This factor was then applied to SEAPODYM’s local skipjack and albacore biomass estimates to calculate total migratory biomass for the SBS, averaged by decade, model, and SSP. The annual proportion of Atlantic migratory biomass entering the SBS domain was determined by dividing the scaled local biomass by the scaled Atlantic migratory biomass.
+
+An increase in the proportion of migratory fish migrating to the SBS suggests that this area will become more suitable for tunas by the 2060s under these climate projections (Tab. X). This trend was integrated into StrathE2E to investigate its potential impacts on the entire food web and fisheries. 
+
+```{r bio-migratory, echo=FALSE, fig.align='center', fig.cap="Scaled annual mean migratory fish biomass from SEAPODYM model outputs for each decade (2010–2019 to 2060–2069), under two climate scenarios (SSP1-2.6 and SSP3-7.0) and two forcing models (CNRM and GFDL).", out.width = '120%'}
+knitr::include_graphics("img/biomass_scaled_SBS_annual.png")
+```
+
+To assess the proportion of peak biomass that remained within the model domain even in the emigration period we extracted the maximum and minimum values from the seasonal cycle.
+
+The full set of parameters used for migratory fish event timing is detailed in lines 17–26 of the event_timing_SBS_*.csv files for each decade under the four climate projections.
+
+```{r tab_migrant_cap}
+
+tab_migrantb_cap <- table_nums(name = "tab_migrantb", 
+    caption = "Biological event timing parameters related to migratory fish constant across the time periods and climate projections")
+```
+
+`r table_nums("tab_migrantb")`
+
+```{r tab_migrant_b, fig.cap = tab_migrantb_cap}
 
 data_frame(Parameter = model[["data"]][["biological.events"]][["Description"]] %>% 
                         str_replace_all("_", " "),
            Value = model[["data"]][["biological.events"]][["Value"]]) %>% 
-  .[1:13,] %>% 
+  slice(c(17, 19, 20)) %>%  
   gt() %>%
   fmt_number(
-    decimals = 2,
-    use_seps = FALSE
-  )
-
-```
-
-\newpage
-
-`r table_nums("tab_migrant", display = "cite")` Continued.
-
-```{r tab_migrantb}
-
-data_frame(Parameter = model[["data"]][["biological.events"]][["Description"]] %>% 
-                        str_replace_all("_", " "),
-           Value = model[["data"]][["biological.events"]][["Value"]]) %>% 
-  .[14:26,] %>% 
-  gt() %>%
-  fmt_number(
-    decimals = 2,
+    decimals = 3,
     use_seps = FALSE
   )
 ```
 
-# Ecological drivers {-}
+```{r migratory_baseline_cap}
+
+migratory_baseline_cap <- table_nums(name = "migratory_baseline_cap", 
+    caption = "Biological event timing parameters related to migratory fish for the baseline period (2010-2019) and last decade of analysis (2060-2069) across the four climate projections, used as input data.")
+```
+
+`r table_nums("migratory_baseline_cap")`
+
+```{r migratory_baseline, fig.cap = migratory_baseline_cap}
+library(gt)
+migratory_fish_data <- data.frame(
+  Parameter = c(
+    "Ocean biomass",
+    "Propn of ocean popn entering per year",
+    "Immigration start day",
+    "Immigration end day",
+    "Propn of peak popn which remains",
+    "Emigration start day",
+    "Emigration end day"),
+  `2010-2019_SSP1-CNRM` = c("5682451", "0.08175", "123", "255", "0.9654", "326", "52"),
+  `2010-2019_SSP3-CNRM` = c("5752309", "0.08076", "86", "162", "0.9685", "269", "15"),
+  `2010-2019_SSP1-GFDL` = c("6285909", "0.07393", "159", "226", "0.9788", "297", "88"),
+  `2010-2019_SSP3-GFDL` = c("6330648", "0.07341", "184", "235", "0.9865", "16", "85"),
+  `2060-2069_SSP1-CNRM` = c("70874880", "0.1047", "248", "2", "0.9023", "73", "177"),
+  `2060-2069_SSP3-CNRM` = c("7351264", "0.1153", "253", "18", "0.9125", "89", "182"),
+  `2060-2069_SSP1-GFDL` = c("6983035", "0.07819", "329", "44", "0.9647", "115", "208"),
+  `2060-2069_SSP3-GFDL` = c("73741361", "0.0921", "265", "10", "0.9300", "81", "194"),
+  check.names = FALSE)
+
+migratory_fish_data %>%
+  gt(rowname_col = "Parameter") %>%
+  tab_spanner(label = "2010-2019",
+    columns = vars(`2010-2019_SSP1-CNRM`, `2010-2019_SSP3-CNRM`,
+                   `2010-2019_SSP1-GFDL`, `2010-2019_SSP3-GFDL`)) %>%
+  tab_spanner(label = "2060-2069",
+    columns = vars(`2060-2069_SSP1-CNRM`, `2060-2069_SSP3-CNRM`,
+                   `2060-2069_SSP1-GFDL`, `2060-2069_SSP3-GFDL`)) %>%
+  cols_label(
+    `2010-2019_SSP1-CNRM` = "SSP1-CNRM",
+    `2010-2019_SSP3-CNRM` = "SSP3-CNRM",
+    `2010-2019_SSP1-GFDL` = "SSP1-GFDL",
+    `2010-2019_SSP3-GFDL` = "SSP3-GFDL",
+    `2060-2069_SSP1-CNRM` = "SSP1-CNRM",
+    `2060-2069_SSP3-CNRM` = "SSP3-CNRM",
+    `2060-2069_SSP1-GFDL` = "SSP1-GFDL",
+    `2060-2069_SSP3-GFDL` = "SSP3-GFDL") %>%
+  cols_align(align = "center", columns = vars(
+    `2010-2019_SSP1-CNRM`, `2010-2019_SSP3-CNRM`,
+    `2010-2019_SSP1-GFDL`, `2010-2019_SSP3-GFDL`,
+    `2060-2069_SSP1-CNRM`, `2060-2069_SSP3-CNRM`,
+    `2060-2069_SSP1-GFDL`, `2060-2069_SSP3-GFDL`)) %>%
+  cols_width(Parameter ~ px(300)) %>%
+  tab_options(table.font.size = 11,
+    table.align = "center")
+```
+
+
+# Ecological drivers {.unnumbered}
 
 Monthly resolution time-varying physical and chemical driving parameters for the model were derived from a variety of sources:
 
--   Temperature, vertical mixing coefficients, volume fluxes, and boundary nutrient, detritus and phytoplankton concentrations from outputs of a NEMO-ERSEM coupled hydro-geochemical model run at SSP370 with a 2010-2019 historical/future split[@yool13].
--   Surface shortwave radiation, surface air temperature, and freshwater volume outflows from HadGEM2-ES model output [@jones11] used to force the NEMO-MEDUSA coupled hydro-geochemical model mentioned above [@yool13].
--   River nitrate and ammonia concentrations estimated from GRQA database (Global River Water Quality Archive, @virro21)
--   Atmospheric deposition of nitrate and ammonia from ISIMIP3a ([Inter-Sectoral Impact Model Intercomparison Project](https://data.isimip.org/10.48364/ISIMIP.759077.2); [@yang22])
--   Remote sensing data products on Suspended Particulate Matter (Globcolour L3b; <ftp://ftp.hermes.acri.fr/GLOB/merged/month/>).
--   Habitat disturbance due to tidal currents and waves from..
--   Wave height, period, and direction from the ERA-5 reanalysis monthly means accessed through [CDS](https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.f17050d7?tab=overview) for 1980-2021 [@Hersbach19].
+- Temperature, vertical mixing coefficients, volume fluxes, and boundary nutrient, detritus and phytoplankton concentrations from outputs of an ensemble of NEMO-ERSEM coupled hydro-geochemical model runs with a 2015 historical/future split CITE YURI XXX.
+- Surface shortwave radiation from CMIP6 used to force the NEMO-ERSEM coupled hydro-geochemical runs mentioned above.
+- Freshwater volume outflows from CMIP6 used to force the NEMO-ERSEM coupled hydro-geochemical runs mentioned above.
+- River nitrate and ammonia concentrations taken from the IMAGE model to force the NEMO-ERSEM coupled hydro-geochemical runs mentioned above.
+- Atmospheric deposition of nitrate and ammonia from ISIMIP3a ([Inter-Sectoral Impact Model Intercomparison Project](https://data.isimip.org/10.48364/ISIMIP.759077.2); [@yang22]) with SSP projects from ISIMIP3b used to force the NEMO-ERSEM coupled hydro-geochemical runs mentioned above.
+- Remote sensing data products on Suspended Particulate Matter (Globcolour L3b; ftp://ftp.hermes.acri.fr/GLOB/merged/month/).
+- Wave height, period, and direction from the ERA-5 reanalysis monthly means accessed through [CDS](https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.f17050d7?tab=overview) for 1980-2021 [@Hersbach19].
 
-Details of how these data were processed are given below, supported by the [nemomedusR](https://jack-h-laverick.github.io/nemomedusR/) packages.
+Details of how these data were processed are given below, supported by the [nemomedusR](https://jack-h-laverick.github.io/nemoRsem/) and [MiMeMo.tools](https://jack-h-laverick.github.io/MiMeMo.tools/) packages.
 
-### Vertical mixing coefficients between the upper and lower layers of the deep zone: {-}
+### NEMO-ERSEM ensemble: ### {-}
 
-Vertical diffusivity from the NEMO-MEDUSA coupled hydro-geochemical model output [@yool13] was interpolated for each grid cell at the SDepth m boundary depth between the shallow and deep layers of the offshore zone.
-These values were summarised as monthly averages into period-specific climatological annual cycles of data for the simulation periods.
+Four different NEMO-ERSEM runs were used to parameterise different versions of the Ascension Island implementation of StrathE2E. These four runs are a 2x2 factorial cross of two future projected scenarios (SSP126 and SSP370) with a historical hindcast from 2015, and forcing by two atmospheric models (CNRM and GFDL). In the following sections model output was processed for a 2010-2019 baseline period, and then decadal projections from 2020-2029 until 2060-2069.
 
-### Monthly averaged temperatures for each water column layer: {-}
+### Vertical mixing coefficients between the model layers: ### {-}
 
-Derived by monthly averaging values at grid points within the inshore and vertical layers of the offshore zones from the NEMO-MEDUSA coupled hydro-geochemical model output [@yool13], weighted by grid point volumes.
-Values were summarised into period-specific climatological annual cycles of data for the simulation periods.
+Vertical diffusivity from the NEMO-ERSEM coupled hydro-geochemical model output was interpolated for each grid cell at the `r SDepth`m boundary depth between the shallow and deep layers of the offshore zone, and the `r DDepth`m boundary at the deep sea overhang. These values were summarised as monthly averages into period-specific climatological annual cycles of data for decadal periods for all combinations of SSPs and forcings.
 
-### Monthly averaged suspended particulate matter (SPM) concentrations (mg.m^-3^) in the shallow zone and the deep zone upper layer: {-}
+### Monthly averaged temperatures for each water column layer: ### {-}
 
-Monthly averaged values of inorganic suspended particulate matter in sea water are available from the Globcolour project, starting from September 1997.
-These data are derived from satellite observations using the algorithm of Gohin [-@gohin11].
-Data were downloaded from the ftp server (<ftp://ftp.hermes.acri.fr/GLOB/merged/month/>).
-We summarised these values as zonal statistics for the model domain to acquire a climatological annual cycle of data for the 2010-2019 simulation period only.
+Derived by monthly averaging values at grid points within the inshore and vertical layers of the offshore zones from the NEMO-ERSEM coupled hydro-geochemical model output, weighted by grid point volumes. Values were summarised into period-specific climatological annual cycles of data.
 
-### Monthly average light attenuation coefficients for the inshore and offshore surface layers: {-}
+### Monthly averaged suspended particulate matter (SPM) concentrations (mg.m^-3^) in the shallow zone and the deep zone upper layer: ### {-}
+
+Monthly averaged values of inorganic suspended particulate matter in sea water are available from the Globcolour project, starting from September 1997. These data are derived from satellite observations using the algorithm of Gohin [-@gohin11]. Data were downloaded from the ftp server (ftp://ftp.hermes.acri.fr/GLOB/merged/month/). We summarised these values as zonal statistics for the model domain to acquire a climatological annual cycle of data for the 2010-2019 simulation period only.
+
+### Monthly average light attenuation coefficients for the inshore and offshore surface layers: ### {-}
 
 Light attenuation in open water was parameterised from a linear relationship between the light attenuation coefficient and suspended particulate matter concentration (SPM) (Devlin et al., 2008).
 
-### Monthly averaged daily integrated irradiance at the sea surface (E.m^-2^.d^-1^): {-}
+### Monthly averaged daily integrated irradiance at the sea surface (E.m^-2^.d^-1^): ### {-}
 
-Derived from HadGEM2-ES model output [@jones11] which forces the NEMO-MEDUSA model run used throughout our implementation.
-Monthly mean values were summarised into a climatological annual cycle of data for the simulation periods.
+Derived from HadGEM2-ES model output [@jones11] which forces the NEMO-ERSEM model run used throughout our implementation. Monthly mean values were summarised into climatological annual cycles of data for decadal periods and NEMO-ERSEM ensembles.
 
-### Monthly averaged daily atmospheric deposition rates of oxidised and reduced nitrogen onto the sea surface in the shallow and deep zones (mMN.m^-2^.d^-1^): {-}
+### Monthly averaged daily atmospheric deposition rates of oxidised and reduced nitrogen onto the sea surface in the shallow and deep zones (mMN.m^-2^.d^-1^): ### {-}
 
-Sourced from the "histsoc" files for a 1901 - 2021 hindcast as monthly averages [@yang22], available from [CDS](https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.f17050d7?tab=overview).
-Monthly values were summarised into climatological annual cycles of monthly oxidised and reduced nitrogen deposition rates extracted for 2010-2019.
-Projections under different SSPs are also available to 2100.
+Sourced from the "histsoc" files for a 1901 - 2021 hindcast as monthly averages [@yang22], available from [CDS](https://cds.climate.copernicus.eu/cdsapp#!/dataset/10.24381/cds.f17050d7?tab=overview). Monthly values were summarised into climatological annual cycles of monthly oxidised and reduced nitrogen deposition rates extracted for 2010-2019. ISIMIPb Projections for SSP126 and SSP370 were processed in the same way for decadal periods up to and including the 2060s.
 
-### Monthly averaged, freshwater river inflow rates (expressed as a daily proportion of the receiving layer volume), and concentrations of oxidised and reduced dissolved inorganic nitrogen in the inflowing river waters (mMN.m^-3^): {-}
+### Monthly averaged, freshwater river inflow rates (expressed as a daily proportion of the receiving layer volume), and concentrations of oxidised and reduced dissolved inorganic nitrogen in the inflowing river waters (mMN.m^-3^): ### {-}
 
-Freshwater inflow derived from HadGEM2-ES model output [@jones11] which forces the NEMO-MEDUSA model run used throughout our implementation.
-Monthly values were summaries into a climatological annual cycle of data for all periods.
+Freshwater inflow derived from HadGEM2-ES model output [@jones11] which forces the NEMO-MEDUSA model run used throughout our implementation. Monthly values were summaries into a climatological annual cycle of data for both the 2010-2019 and 2040-2049 periods.
 
-### Volume fluxes into the model domain across open sea boundaries, and from the upper layer of the offshore/deep zone into the inshore/shallow zone, expressed as proportions of the receiving layer volume per day: {-}
+[old information]
 
-Monthly averaged daily inflow and outflow volume fluxes derived by integrating daily mean velocities directed perpendicular to transects along the model domain boundary at grid points in each depth layer along transects through outputs from the NEMO-MEDUSA coupled hydro-geochemical model output [@yool13].
-Monthly averaged daily inflow volume fluxes then divided by the volume of the receiving layer in the model domain to estimate a daily flushing rate.
-Period-specific climatological annual cycles of data used for simulation periods.
+### Volume fluxes into the model domain across open sea boundaries, and from the upper layer of the offshore/deep zone into the inshore/shallow zone, expressed as proportions of the receiving layer volume per day: ### {-}
 
-### Mean concentrations of nitrate, ammonia, phytoplankton and suspended detritus (mMN.m^-3^), in adjacent ocean waters inflowing to the offshore/deep zone upper layer, adjacent ocean waters inflowing to the offshore/deep zone lower layer, and adjacent shelf waters inflowing to the inshore/shallow zone: {-}
+Monthly averaged daily inflow and outflow volume fluxes derived by integrating daily mean velocities directed perpendicular to transects along the model domain boundary at grid points in each depth layer along transects through outputs from the NEMO-ERSEM coupled hydro-geochemical model output. Monthly averaged daily inflow volume fluxes then divided by the volume of the receiving layer in the model domain to estimate a daily flushing rate. 
 
-NEMO-MEDUSA outputs included phytoplankton and suspended detritus, as well as Dissolved Inorganic Nitrogen (DIN).
-We calculated the depth-averaged concentrations for pixels within the shallow and deep layers of StrathE2E.
-We then sampled the pixels using the same transects around the model domain as for sampling volume fluxes.
-Only transects where water flowed into the model domain were sampled, and the average concentration of inflowing waters for target variables was calculated weighting by the flow rate across a transect and the cross-sectional area represented by a transect (average depth and length).
-Concentrations were then averaged into climatological annual cycles for all periods.
+### Mean concentrations of nitrate, ammonia, phytoplankton and suspended detritus (mMN.m^-3^), in adjacent ocean waters inflowing to the offshore/deep zone upper layer, adjacent ocean waters inflowing to the offshore/deep zone lower layer, and adjacent shelf waters inflowing to the inshore/shallow zone: {.unnumbered}
 
+NEMO-ERSEM outputs included nitrate, ammonia, phytoplankton and suspended detritus. We calculated the depth-averaged concentrations for pixels within the shallow and deep layers of StrathE2E. We then sampled the pixels using the same transects around the model domain as for sampling volume fluxes. Only transects where water flowed into the model domain were sampled, and the average concentration of inflowing waters for target variables was calculated weighting by the flow rate across a transect and the cross-sectional area represented by a transect (average depth and length). Concentrations were then averaged into climatological annual cycles. The flow weighted averaging of concentrations was calculated on the 5-day NEMO-ERSEM timestep, before averaging to a monthly climatology of concentrations. 
+
+[ask Jack]
 The GRQA (@virro21) database was utilized, providing nitrate and ammonium concentrations in mg/l from continental and global observation datasets.
 Data were filtered for Brazilian rivers along the SBS coastline, and those inflowing to the inshore zone were selected.
 Outliers were identified using the IQR method.
 The resulting values were converted into monthly mean concentrations of nitrate and ammonia in river waters flowing into the model in mMN.m^-3^., as a chemistry driving parameter for SBS StrathE2E.
 
-# Fishing fleet {-}
+# Fishing fleet {.unnumbered}
 
-## Background {-}
+## Background {.unnumbered}
 
 The key configuration data for the fishing fleet model are the definitions of the gears in terms of their power with respect to each of the harvestable resource guilds, discards and bycatch rates, processing-at-sea rates, and seabed abrasion rates.
 These can be regarded as static parameters for each fleet.
@@ -550,7 +629,7 @@ Twelve fleets were identified: Fish trawl, Bottom gillnet, Surface gillnet, Bott
 A general description of each fleet is provided below.
 
 The most significant fishery in the SBS, by volume, targets the Brazilian sardine (*Sardinella brasiliensis*), the most abundant and commercially valuable fish in Brazil.
-Historical stock collapses due to biomass declines (Barange et al., 2009; Cergole and Dias Neto, 2011; Dias, 2012) have led to other sardine species likethe false herring *Harengula clupeola* and the atlantic thread herring *Opisthonema oglinum*, as well as other small pelagic fish, being targeted.
+Historical stock collapses due to biomass declines (Barange et al., 2009; Cergole and Dias Neto, 2011; Dias, 2012) have led to the target of other sardine species like the false herring  ("palombeta") *Harengula clupeola* and the atlantic thread herring ("sardinha-laje") *Opisthonema oglinum*, as well as other small pelagic fish.
 In the model, the purse-seine fleet is grouped with other net types targeting sardines under the "Purse and Beach Seines" fleet, which is mainly industrial.
 Though spread across all SBS states, the fleet's landings are concentrated in Itajaí and Navegantes (SC), where major processing industries are located (OCEANA, 2024).
 While purse-seine fishing generally has low environmental impacts, such as bycatch and seabed disturbance, concerns remain that current management may fail to address the sardine's critical role as a forage species.
@@ -560,10 +639,10 @@ Furthermore, the fleet is not managed as a multi-species fishery, despite catchi
 knitr::include_graphics("img/traineira.png")
 ```
 
-We also considered the “Trap net” fleet, regional fish traps known as "cerco fixo" and "cerco flutuante".
+We also considered the "Trap net" fleet, regional fish traps known as "cerco fixo" and "cerco flutuante".
 These are primarily artisanal traps targeting demersal and small pelagic species such as grey mullets (*Mugil spp.*), Argentine croaker (*Umbrina canosai*), jacks (*Caranx spp.*), and sardines, and are typically placed in sheltered areas such as estuaries.
 Studies on catch composition, discards, or bycatch for these traps not targeting the Brazilian sardine are rare, as are specific legal frameworks for these fleets (OCEANA, 2024).
-A discard rate for demersal fish was applied, and the bycatch of seabirds and cetaceans is not documented in the literature.
+A discard rate for demersal fish was applied, and the bycatch of birds and cetaceans by this fleet is not documented in the literature.
 
 Following the purse-seine fleet, gillnets represent the second most significant fleet in terms of catch volume in the SBS.
 Here, gillnets are divided into surface gillnets and bottom gillnets.
@@ -581,7 +660,7 @@ Regional differences are reflected in gear specifications, as well as operationa
 A total of 1,127 vessels are registered for surface gillnet fishing according to OCEANA (2024).
 
 Trawlers in the SBS are divided into three main fleets: Fish trawl, Pink-shrimp trawlers, and Seabob-shrimp trawlers, based on the trawling system used and target species.
-The fish trawl fleet is predominantly industrial, using mainly bottom-pair trawls to catch demersal fish such as whitemouth croaker (M*icropogonias furnieri*), Argentine croaker (*Umbrina canosai*), and striped weakfish (*Cynoscion guatucupa*).
+The fish trawl fleet is predominantly industrial, using mainly bottom-pair trawls to catch demersal fish such as whitemouth croaker (*Micropogonias furnieri*), Argentine croaker (*Umbrina canosai*), and striped weakfish (*Cynoscion guatucupa*).
 This fleet produces significant discards, primarily non-target demersal fish (Cardoso et al., 2021).
 Coastal bottom trawling consists of 64 mostly industrial vessels, bottom-pair trawling targeting sciaenid fish involves 110 registered vessels, and deep-sea trawling for demersal species includes 7 industrial vessels in the SBS according to OCEANA (2024).
 
@@ -619,7 +698,7 @@ This fleet is highly selective, resulting in minimal discards within the migrato
 knitr::include_graphics("img/pole-and-line.png")
 ```
 
-We grouped the benthos-targeting gear under the "Traps (benthos)" fleet, which includes traps for crabs, fish pots, and regional artisanal gears (e.g., “puçá” for shrimp).
+We grouped the benthos-targeting gear under the "Traps (benthos)" fleet, which includes traps for crabs, fish pots, and regional artisanal gears (e.g., "puçá" for shrimp).
 Approximately 54% of this fleet is artisanal, while 46% is industrial.
 It primarily targets crabs, octopus, and some demersal fish.
 There are 24 industrial vessels targeting octopus (*Octopus vulgaris*, *Octopus insularis*) and 2 vessels targeting deep-sea crab (*Chaceon notialis*) in the SBS (OCEANA, 2024).
@@ -627,7 +706,7 @@ We assume discards mainly affect the demersal fish guild, though other ecologica
 
 We grouped all other gear types present in the fishing databases, which operate in smaller proportions, under the "Other/Multiple Gear" fleet.
 This category includes regional artisanal gears and hand gathering.
-Although multispecies, primarily dominated the demersal fish guild (such as whitemouth croaker and other Sciaenidae) as well as suspension and deposit-feeding benthos ( shellfish and mussels).
+Although multispecies, primarily dominated the demersal fish guild (such as whitemouth croaker and other Sciaenidae) as well as deposit and filter benthos (shellfish and mussels).
 There is minimal discard associated with these gears, and bycatch is not reported in the literature.
 
 The methodology for compiling data on fishing parameters for each of the described fleets is detailed in the subsequent sections.
@@ -640,7 +719,7 @@ knitr::include_graphics("img/Fleets1.png")
 knitr::include_graphics("img/Fleets2.png")
 ```
 
-## Landings {-}
+## Landings {.unnumbered}
 
 In Brazil, there is no national governmental fisheries monitoring program.
 For model parameterization, we compiled annual fisheries landings data from 2010 to 2019, categorized by state, year, species, guild, and fishing type (artisanal or industrial).
@@ -699,18 +778,18 @@ tab <- gear_tab %>%
 tab
 ```
 
-### Data Imputation {-}
+### Data Imputation {.unnumbered}
 
 Due to various missing values, a data imputation process was carried out, resulting in approximately 70.5% of the data originating from original sources, 23.9% from landing values with estimated fleet information, and 5.6% from estimations for both landings and fleets.
 The detailed methodology is outlined below and noted in the "Obs" column of the SBS fisheries database compilation.
 
-#### Missing Years {-}
+#### Missing Years {.unnumbered}
 
 For Rio de Janeiro in 2017, landing data were only available for the second half of the year.
 Annual values were estimated by also considering landing data for the first half of 2018 for the same fleet and species.
 Additionally, there was no landing data for 2016; hence, the average of 2015 and 2017 values was used for each fleet and species.
 
-#### Missing Fleets {-}
+#### Missing Fleets {.unnumbered}
 
 In cases where landing values by species were available but without fleet details, the following imputation criteria were applied: a.
 If fleet information was available for the same species and state but for a different year, the proportion of landings by fleet for that species was used for the closest possible period.
@@ -757,7 +836,7 @@ tab <- type_gear_tab %>%
 tab
 ```
 
-## Discards {-}
+## Discards {.unnumbered}
 
 The discards rates (proportion of catch discarded) per fleet and guild was obtained through literature review and available databases, described above for each fleet.
 
@@ -838,7 +917,7 @@ tab
 
 ```
 
-## Bycatch {-}
+## Bycatch {.unnumbered}
 
 We conducted a bibliographic search to compile as many publications as possible on bycatch data for the top predator guilds: seabirds, pinnipeds, and cetaceans in the SBS.
 Our goal was to include all states for each guild and to exclude overlapping studies (same study area and same species).
@@ -854,7 +933,7 @@ The annual bycatch data should not be regarded as a comprehensive study on this 
 
 Bycatch data were found for the following StrathE2E SBS fleets: Fish Trawl, Surface Gillnet, Bottom Gillnet, Surface Longline, and Other/Multiple Gears, as described below for each guild.
 
-### Cetaceans {-}
+### Cetaceans {.unnumbered}
 
 For the cetacean guild, we utilized studies by @bertozzi02, @ott02, @secchi04, @perez05, @flach15, @fogliarini17, and @prado21 for bottom gillnets with bycatch data on the franciscana (*Pontoporia blainvillei*), Guiana dolphin (*Sotalia guianensis*), common dolphin (*Delphinus sp.*), and other dolphins of the genus Stenella.
 Among the compiled studies, the highest bycatches were associated with bottom gillnet fishing targeting the monkfish (*Lophius gastrophysus*), occurring extensively in the offshore SBS @perez05.
@@ -867,7 +946,7 @@ Surface gillnets targeting sharks, tuna, and mullets across the SBS contributed 
 
 The total cetaceans bycatch from both the gillnets fleets was estimated at 25.19 tons per year - 14.51 from surface and 10.68 from bottom gillnet.
 
-### Seabirds {-}
+### Seabirds {.unnumbered}
 
 For the seabird guild, we compiled sources of @perez05, @cardoso11, and @fogliarini17 for bottom gillnets, recording bycatch of the species: Magellanic penguin (*Spheniscus magellanicus*), and petrels (*Daption capense*, *Procellaria aequinoctialis*, *Puffinus griseus*, and *P. gravis*).
 The fleet targeting monkfish was responsible for the major petrel bycatch, followed by fleets targeting croaker and other demersal fish, with incidental captures of penguins.
@@ -884,7 +963,7 @@ For bottom longlines, we referred to @neves06b, which reported low bycatch value
 
 This compilation resulted in a total seabird bycatch of 5.51 tons per year - 3.7 from surface longline and lines, 1.44 from bottom gillnet and 0.37 from surface gillnet.
 
-### Pinnipeds {-}
+### Pinnipeds {.unnumbered}
 
 Pinnipeds in the SBS occurs in the South region, in Rio Grande do Sul.
 We used @machado15, which documented bycatch of the South American sea lion (*Otaria flavescens*) by the pair trawl fleet in this region.
@@ -892,23 +971,23 @@ We used @machado15, which documented bycatch of the South American sea lion (*Ot
 Unlike cetaceans and seabirds, the highest mortality of pinnipeds due to fishing does not occur onboard but through subsequent interactions with ghost nets @mader06.
 We considered then an annual bycatch of 1.53 tons - 1.07 from surface gillnet and 0.46 from fish trawl.
 
-## Fishing effort and distribution per habitat {-}
+## Fishing effort and distribution per habitat {.unnumbered}
 
-### Fishing effort {-}
+### Fishing effort {.unnumbered}
 
 Fishing effort data for each fleet are required as inputs to the model in terms of seconds of activity per mˆ2ˆ per day.
 Although the SBS contains apparent annual fishing effort data from the National Fishing Vessel Tracking Program (PREPS) via the Global Fishing Watch (GFW) map interface, these data only records large industrial vessels and do not align with the fleets defined for the StrathE2E SBS model.
 Therefore, we used fishing days data from state-specific monitoring programs, later converting them to fishing hours.
 The steps taken to reach the final unit are described below.
 
-#### Step 1. Data Compilation {-}
+#### Step 1. Data Compilation {.unnumbered}
 
 The first step was to compile fishing days data from the consolidated PMAP reports, categorized into industrial and artisanal fleets.
 The data were compiled for each semester by state and year, covering the period from 2017 to 2019 for the SBS states: São Paulo, Santa Catarina, Paraná, and Rio de Janeiro.
 Data for Rio Grande do Sul were extracted from the FURG/CEERMA reports for 2018 and 2019.
 In this case, the average duration of fishing trips in days was multiplied by the total landings to estimate fishing days.
 
-#### Step 2. Fleet Allocation {-}
+#### Step 2. Fleet Allocation {.unnumbered}
 
 The gears reported in the PMAP reports were allocated in the 12 fleets defined for the StrathE2E SBS model based on their operational similarities and target species (see Table X).
 Unidentified fishing activities were not considered.
@@ -917,13 +996,13 @@ Therefore, a separation into surface and bottom categories was made by applying 
 Although there is a division between bottom and surface longlines, there are also significant values in longlines not identified.
 The same procedure used for gillnets was applied, using the proportion of landings from bottom and surface longlines to allocate into each fleet.
 
-#### Step 3. Missing Data {-}
+#### Step 3. Missing Data {.unnumbered}
 
 Data for Rio de Janeiro state were only available from 2018 onward, creating a discrepancy for the year 2017.
 To address this, the fishing days for each semester of 2017 were estimated to correspond to 2018 values for the and fleet.
 Data for each fleet in RS in 2017 were also missing and was assumed to be the same as the 2018 values.
 
-#### Step 4. Conversion to Fishing Hours {-}
+#### Step 4. Conversion to Fishing Hours {.unnumbered}
 
 To convert fishing days into fishing hours, we used an average value of daily operational hours for each fleet.
 Assumptions guided daily effort estimates: 14h for Fish trawl, 16h for Pink-shrimp trawl, 18h for Purse-seine and beach seines, 10h for Pole-and-line, and 12h for other fleets.
@@ -973,12 +1052,12 @@ effort_tab <- effort_table %>%
 effort_tab
 ```
 
-### Fleet Distribution per habitat {-}
+### Fleet Distribution per habitat {.unnumbered}
 
 Fleet distribution in each habitat was allocated by combining information from PMAP reports with the sediment habitats.
 Maps and associated text, often specifying the locations and isobaths with the most fishing activity, was used to allocate the fleets in each habitat, assisted by georeferenced sediment habitats.
 
-## Seabed abrasion {-}
+## Seabed abrasion {.unnumbered}
 
 To calculate the seabed abrasion rate (plough rate) per unit of time for each fleet, we used the study by Costa et al. (2024), which evaluated the pressures exerted by demersal fisheries during 2018 in Southeast and South Brazil.
 We multiplied the average fishing days by the total trips in the period and used the same conversion of hours per fishing day considered in the study.
@@ -988,7 +1067,7 @@ Given that the trawlers fleets considered in the present model are a mix of the 
 We assumed a gear penetration depth of 2.5 cm across all seabed-contact gears, independent of sediment type, based on the average penetration of otter trawl and beam trawl reported by Hiddink et al. (2017).
 We used a depletion fraction (damage mortality rates on benthic species caused by seabed-contact towed gears) of 0.10, following the same study.
 
-## Other processing {-}
+## Other processing {.unnumbered}
 
 1.  Total catch by fleet and guild was calculated by inflating landings with discard/bycatch values (described above for cetaceans, birds, planktivores, migratory and demersal fish).
 
@@ -998,15 +1077,15 @@ We used a depletion fraction (damage mortality rates on benthic species caused b
 
 4.  Fishing power was calculated as catch / activity per fleet.
 
-# Target data {-}
+# Target data {.unnumbered}
 
-Observed (target) data is used in the fitting process to train StrathE2E to return sensible values during the simulated annealing scheme (see the methodology implemented in StrathE2E in X and Y).
-Ecosystem state indices included in the optimisation process are data regarding the gross and net production of commercial guilds, PB ratios, fishery landings, bycatch, and other properties, located in the file "annual_observed_SBS.csv".
+The observed (target) data and its standard deviation (SD) are used in the fitting process to train StrathE2E, ensuring it returns reasonable values during the simulated annealing scheme (see the methodology implemented in StrathE2E in sources X and Y). The ecosystem state indices included in the optimization process comprise data on the gross and net production of commercial guilds, production-to-biomass (PB) ratios, dietary proportions of top predators, fishery landings, bycatch, and other relevant properties, all located in the files "annual_observed_SBS.csv."
 
-To optimize fishing gear activity rates we used target data concerning the harvest ratios (the proportion of exploitable biomass captured per day within each guild), fitting a scaling parameter for the effort-to-harvest ratio.
-The resultant values can be found in the files "region_harvest_SBS.csv" and "zonal_harvest_r_SBS.csv".
+The landings and bycatch data compiled in Section X were used as target data, expressed in units of mMN/m²/year. The SD for landings was calculated based on the 2010–2019 time series, while for bycatch, the SD was assumed to be 25% of the corresponding values.
 
-## Production and PB ratios {-}
+To optimize fishing gear activity rates we used target data concerning the harvest ratios (the proportion of exploitable biomass captured per day within each guild), fitting a scaling parameter for the effort-to-harvest ratio. The resultant values can be found in the files "region_harvest_SBS.csv" and "zonal_harvest_r_SBS.csv".
+
+## Production and PB ratios {.unnumbered}
 
 Calculating the production of all six commercial guilds in the SBS involved compiling and adjusting biomass data and PB ratios for the main species of each guild, including both commercial species present in our fisheries database and non-commercial species of ecological importance in the region.
 Subsequently, we convert the biomass for each species into gross production using PB ratios and converted them to molar nitrogen mass following @greenstreet96.
@@ -1075,16 +1154,16 @@ tab <- production_tab %>%
 tab
 ```
 
-### Top-predators {-}
+### Top-predators {.unnumbered}
 
-#### Seabirds {-}
+#### Seabirds {.unnumbered}
 
 The majority of seabirds in the SBS belong to the Orders Procellariiformes, including albatrosses and petrels, followed by Charadriiformes (gulls, skuas, and terns), Pelecaniformes (frigates and boobies), and Sphenisciformes, which includes penguins (Neves et al., 2007).
 Population size studies in the region are scarce, often focusing on specific seasons or small areas of the SBS.
 We uilized the output parameters of the @gasalla04 Ecopath model, which estimated a biomass of 0.001 t.kmˆ-2ˆ for resident seabird species such as *Sula leucogaster*, *Sterna eurygnatha*, *Larus dominicanus*, *S. hirundinacea*, and *Fregata magnificens*, based on population censuses and literature-based abundance.
 We applied this ratio to our area and utilised the PB ratio of 0.14 from the same source.
 
-### Cetaceans {-}
+### Cetaceans {.unnumbered}
 
 For the Cetaceans guild we utilised the density and abundance estimates from the Cetacean Monitoring Project in the Santos Basin (Projeto de Monitoramento de Cetáceos na Bacia de Santos - PMC-BS) (Petrobras, 2021) based on both onboard and aerial monitoring conducted over five years of effort.
 General data were available for mysticetes and delphinids, as well as specific data for three species with sufficient sample sizes: the humpback whale (*Megaptera novaeangliae*), Atlantic spotted dolphin (*Stenella frontalis*), and bottlenose dolphin (*Tursiops truncatus*).
@@ -1111,7 +1190,7 @@ We also utilised the PB ratio (0.050) from Gasalla and Rossi-Wongtschowski (2004
 knitr::include_graphics("img/cetaceans.png")
 ```
 
-### Pinnipeds {-}
+### Pinnipeds {.unnumbered}
 
 Regarding pinnipeds, the sea lions *Otaria flavescens*, *Arctocephalus australis*, and *Arctocephalus tropicalis* are the most abundant species in Brazil, predominantly inhabiting the Rio Grande do Sul region (Santos et al., 2012; Silva, 2004).
 The only nearby ecosystem models with biomass estimates found were those by Bergamino et al. (2012), who estimated O.
@@ -1122,7 +1201,7 @@ The average weights of each species were used to estimate our model biomass.
 Due to the lack of information regarding the population size of *A. tropicalis* in Brazil, its population was considered equivalent to that of *A. australis* and added to the total biomass of the guild.
 The PB ratio used was 1.04, as reported by Reinaldo et al. (2016).
 
-### Demersal fish {-}
+### Demersal fish {.unnumbered}
 
 The biomass of the demersal guild in the SBS was estimated using a range of sources for the main species in the region, which included 39 taxa with one or more species.
 Among the sources used are the outputs parameters of Ecopath models by @gasalla04, @gasalla07, and @bornatowski18, adjusting the area when necessary if the species is predominant in a specific zone of the model; Haimovici et al. (2009) bottom trawl surveys from the REVIZEE cruise, and Sea Around Us stock assessments (averaged from 2010-2018 or the last year available).
@@ -1142,26 +1221,50 @@ Other exploited sciaenid species include the weakfishes *C. guatucupa*, *C. jama
 Rough estimates for each species were made considering the ratio between reported biomass and catches in the SAU and our catch.
 PB values from other ecosystem models (Gasalla and Rossi-Wongtschowski, 2004) for the sciaenids group were used.
 
-The mullet (*Mugil liza*) is considered heavily overfished according to both SAU and OCEANA assessments. We used the biomass from the stock assessment for 2015 by Sant’Ana & Kinas (2016), which remained almost constant until 2019 (UNIVALI, 2020), and points that the mullet stock is overfished and experiencing overfishing.
+The mullet (*Mugil liza*) is considered heavily overfished according to both SAU and OCEANA assessments.
+We used the biomass from the stock assessment for 2015 by Sant'Ana & Kinas (2016), which remained almost constant until 2019 (UNIVALI, 2020), and points that the mullet stock is overfished and experiencing overfishing.
 The PB used was from Gabin et al. (2014) total mortality Z.
 
-The hake (*Merluccius hubbsi*), cutlassfish (*Trichiurus lepturus*), and Brazilian codling (*Urophycis spp.*) are highly abundant species in the offshore and overhang zones of the model (Haimovici et al., 2008). These species hold commercial importance and are considered overfished (B<Bmsy), as indicated by Cardoso et al. (2022). Their biomass estimates and for the remaining major commercial species were sourced from ecosystem models by @gasalla07, @bornatowski18, and bottom trawl data from the REVIZEE cruises (Haimovici et al., 2008). The "Other demersal fishes" group in the @gasalla07 model encompasses approximately 20 species recorded in bottom trawl surveys (Haimovici et al., 2006), all of which show high biomass levels.
+The hake (*Merluccius hubbsi*), cutlassfish (*Trichiurus lepturus*), and Brazilian codling (*Urophycis spp.*) are highly abundant species in the offshore and overhang zones of the model (Haimovici et al., 2008).
+These species hold commercial importance and are considered overfished (B\<Bmsy), as indicated by Cardoso et al. (2022).
+Their biomass estimates and for the remaining major commercial species were sourced from ecosystem models by @gasalla07, @bornatowski18, and bottom trawl data from the REVIZEE cruises (Haimovici et al., 2008).
+The "Other demersal fishes" group in the @gasalla07 model encompasses approximately 20 species recorded in bottom trawl surveys (Haimovici et al., 2006), all of which show high biomass levels.
 
-For non-commercial species, deep-ocean bentho-pelagic fish characterised as demersal were included, also exhibiting substantial biomass (e.g., *Caelorinchus marinii*, *Xenolepidichthys dalgleishi* from @bornatowski18). PB values for these species were derived from the same source. Boarfish (*Antigonia capros*) and rosefish (*Helicolenus spp.*) biomass, along with their PB values, were taken from the @gasalla07 model. Additionally, the silvery John dory (*Zenopsis conchifer*) was considered based on REVIZEE bottom trawl surveys conducted off southern Brazil (Haimovici et al., 2009), with PB values sourced from Nascimento et al. (2010).
+For non-commercial species, deep-ocean bentho-pelagic fish characterised as demersal were included, also exhibiting substantial biomass (e.g., *Caelorinchus marinii*, *Xenolepidichthys dalgleishi* from @bornatowski18).
+PB values for these species were derived from the same source.
+Boarfish (*Antigonia capros*) and rosefish (*Helicolenus spp.*) biomass, along with their PB values, were taken from the @gasalla07 model.
+Additionally, the silvery John dory (*Zenopsis conchifer*) was considered based on REVIZEE bottom trawl surveys conducted off southern Brazil (Haimovici et al., 2009), with PB values sourced from Nascimento et al. (2010).
 
 The PB value of 0.76 was used as well as target data, based on the average PB of the key species/groups that account for 95% of the biomass, with the SD value of 0.47.
 
-### Planktivorous fish {-}
+### Planktivorous fish {.unnumbered}
 
-Recent assessments of planktivorous fish biomass are limited in the literature. For the purpose of model parameterization, the biomass of the planktivorous guild in the SBS was estimated using a variety of sources, including other models and hydroacoustic surveys for key SBS species. We considered an annual biomass of 9.72 t/km², totaling 3,029,116.75 tons, which included 16 taxa representing one or more species. Further details regarding the main species are provided below.
+Recent assessments of planktivorous fish biomass are limited in the literature.
+For the purpose of model parameterization, the biomass of the planktivorous guild in the SBS was estimated using a variety of sources, including other models and hydroacoustic surveys for key SBS species.
+We considered an annual biomass of 9.72 t/km², totaling 3,029,116.75 tons, which included 16 taxa representing one or more species.
+Further details regarding the main species are provided below.
 
-In the compiled fisheries data, the Brazilian sardine (*Sardinella brasiliensis*) was the most caught species, even when considering all catches from the SBS StrathE2E guilds.  Despite several advances in the knowledge of this species over recent years, there are no recent official biomass estimates, and is considered "Data Deficient" by the International Union for the Conservation of Nature (IUCN) (Di Dario, 2018). We applied a biomass value of 3.55 t/km², as reported by Soares (2021), which was derived from unpublished data by the Scientific Committee (2021), to our study area. The Atlantic thread herring (*Opisthonema oglinum*) ranks as the second most frequently caught species, and we derived a rough estimate based on the ratio between reported biomass and catches in the SAU for Brazil's EEZ, adjusting for our SBS catches. The PB ratio for both species was obtained from Bornatowski et al. (2017) under the "Engraulidae and Clupeidae" group. The planktivorous biomass also includes other forage fish species such as *Bregmaceros atlanticus*, *Bregmaceros cantori*, *Scomber spp.*, jacks (*Caranx spp.*), and other Engraulidae and Clupeidae species. Biomass estimates for these taxa were derived from @sau, @gasalla07, Haimovici et al. (2008), or in the last case, estimated based on the proportion of biomass to catch of ecologically similar species. PB values were sourced from @gasalla04, @gasalla07, and @bornatowski18.
+In the compiled fisheries data, the Brazilian sardine (*Sardinella brasiliensis*) was the most caught species, even when considering all catches from the SBS StrathE2E guilds.
+Despite several advances in the knowledge of this species over recent years, there are no recent official biomass estimates, and is considered "Data Deficient" by the International Union for the Conservation of Nature (IUCN) (Di Dario, 2018).
+We applied a biomass value of 3.55 t/km², as reported by Soares (2021), which was derived from unpublished data by the Scientific Committee (2021), to our study area.
+The Atlantic thread herring (*Opisthonema oglinum*) ranks as the second most frequently caught species, and we derived a rough estimate based on the ratio between reported biomass and catches in the SAU for Brazil's EEZ, adjusting for our SBS catches.
+The PB ratio for both species was obtained from Bornatowski et al. (2017) under the "Engraulidae and Clupeidae" group.
+The planktivorous biomass also includes other forage fish species such as *Bregmaceros atlanticus*, *Bregmaceros cantori*, *Scomber spp.*, jacks (*Caranx spp.*), and other Engraulidae and Clupeidae species.
+Biomass estimates for these taxa were derived from @sau, @gasalla07, Haimovici et al. (2008), or in the last case, estimated based on the proportion of biomass to catch of ecologically similar species.
+PB values were sourced from @gasalla04, @gasalla07, and @bornatowski18.
 
-Among non-commercial species, the argentine anchovy (*Engraulis anchoita*) represents a significant stock shared with Uruguay and Argentina (Vaz-dos-Santos et al., 2007). In the SBS, its commercial exploitation is minimal, and the species exhibits a high capacity to replenish its biomass, a typical characteristic of small pelagics (Cooke and Madureira, 2012). For this species, we used biomass data from Cooke and Madureira (2012) and the PB ratio from Bornatowski et al. (2017). The mesopelagic pearlside (*Maurolicus stehmanni*) also contributes substantially to SBS fish biomass, being particularly abundant on the outer shelf and continental slope (Madureira and Rossi-Wongtschowski, 2005; Rodrigues-Ribeiro et al., 2021).  As a forage species with a short life span, rapid growth, and a dietary preference for zooplankton, *M. stehmanni* was classified here within the planktivorous guild (Ribeiro, 1996; Almeida, 2001). Although not directly targeted by fisheries, it plays a crucial trophic role, serving as prey for tuna, squid, and demersal fish (@bornatowski18). We applied biomass values from @gasalla07 from their Ecopath model for the SBS region between 100 and 1000m, which were based on hydroacoustic surveys conducted by Madureira et al. (2005). Additionally, we included biomass estimates and PB values for other planktivorous mesopelagic species, including 18 species from the @gasalla07 model, with 61% of the biomass in this group comprising other Myctophidae species.
+Among non-commercial species, the argentine anchovy (*Engraulis anchoita*) represents a significant stock shared with Uruguay and Argentina (Vaz-dos-Santos et al., 2007).
+In the SBS, its commercial exploitation is minimal, and the species exhibits a high capacity to replenish its biomass, a typical characteristic of small pelagics (Cooke and Madureira, 2012).
+For this species, we used biomass data from Cooke and Madureira (2012) and the PB ratio from Bornatowski et al. (2017).
+The mesopelagic pearlside (*Maurolicus stehmanni*) also contributes substantially to SBS fish biomass, being particularly abundant on the outer shelf and continental slope (Madureira and Rossi-Wongtschowski, 2005; Rodrigues-Ribeiro et al., 2021).
+As a forage species with a short life span, rapid growth, and a dietary preference for zooplankton, *M. stehmanni* was classified here within the planktivorous guild (Ribeiro, 1996; Almeida, 2001).
+Although not directly targeted by fisheries, it plays a crucial trophic role, serving as prey for tuna, squid, and demersal fish (@bornatowski18).
+We applied biomass values from @gasalla07 from their Ecopath model for the SBS region between 100 and 1000m, which were based on hydroacoustic surveys conducted by Madureira et al. (2005).
+Additionally, we included biomass estimates and PB values for other planktivorous mesopelagic species, including 18 species from the @gasalla07 model, with 61% of the biomass in this group comprising other Myctophidae species.
 
-The PB value of 1.36 and SD 0.28 was used as well as target data, based on the average PB of the key species/groups that account for 95% of the biomass: *S. brasiliensis*, *E. anchoita*, *M. stehmanni*, along with the groups classified as other forage species and other mesopelagic planktivores. 
+The PB value of 1.36 and SD 0.28 was used as well as target data, based on the average PB of the key species/groups that account for 95% of the biomass: *S. brasiliensis*, *E. anchoita*, *M. stehmanni*, along with the groups classified as other forage species and other mesopelagic planktivores.
 
-### Carnivorous and scavengers benthos {-}
+### Carnivorous and scavengers benthos {.unnumbered}
 
 We aggregated biomass data for commercial and non-commercial species within the CS Benthos guild, noting that non-commercial species exhibited the highest densities.
 Among the commercial species, the shrimps *Xiphopenaeus kroyeri*, *Farfantepenaeus spp.*, *Artemesia longinaris*, *Pleoticus muelleri*, and *Litopenaeus schmitti* are the most important, comprising 71.7% of the guild's landings.
@@ -1182,9 +1285,10 @@ Octopuses from the family Octopodidae are significantly captured in the SBS, wit
 In the absence of specific biomass estimates for octopuses, we used the biomass and PB values from the "Predator molluscs" group in the Nascimento et al. (2010) ecosystem model, which includes octopuses along with many other noncommercial CS benthic species.
 The same source was used for the biomass and PB values of predator crustaceans (*Hemisquilla brasiliensis*, *Squilla* sp.), deep-sea shrimp (*Alpheus* spp., *Heterocarpus* spp., *Rhynchocinetes* spp., *Acanthephyra* spp., *Aristaeopsis edwardsiana*, among others), and benthic omnivorous invertebrates (Isopoda, Amphipoda, Chaetognatha).
 
-This resulted in a biomass for the CS benthos guild of 8.08 t.km-², totaling 2,517,712.48 tons. The PB value of 3.51 and SD 2.44 was used as well as target data, based on the average PB of the key species/groups that account for >95% of the biomass.
+This resulted in a biomass for the CS benthos guild of 8.08 t.km-², totaling 2,517,712.48 tons.
+The PB value of 3.51 and SD 2.44 was used as well as target data, based on the average PB of the key species/groups that account for \>95% of the biomass.
 
-### Suspension and deposit benthos {-}
+### Suspension and deposit benthos {.unnumbered}
 
 The most important commercial species in the SD guild are the oyster *Crassostrea rhizophorae* and the mussel *Perna perna*, accounting for 69.7% of our landings.
 For both species, we used the biomass from the SAU stock assessment for the SBS region from the 2010-2018 average.
@@ -1194,7 +1298,7 @@ We used the biomass of Polychaeta, Infauna, Detritivorous invertebrates, and Biv
 This resulted in a biomass for the SD benthos guild of 31.68 t.km-², or 9,875,197.3 tonnes.
 The PB value of 5.8 was used as well as target data, based on the average PB of the key species/groups that account for 95% of the biomass, and the SD value of 6.09.
 
-### Carnivorous and scavengers zooplankton {-}
+### Carnivorous and scavengers zooplankton {.unnumbered}
 
 For the carnivorous zooplankton guild, we considered squids and gelatinous zooplankton as primary representatives.
 Haimovici et al. (2008) provided a survey of the biomass of the squid *Loligo plei* on the outer shelf, covering depths of 100-600 m.
@@ -1211,7 +1315,7 @@ Given the lack of local data, we applied the PB ratio for jellyfish from the Wor
 
 The PB value of 5.15 was used as well as target data, based on the average PB of the aforementioned species, with SD value of 4.27.
 
-### Omnivorous zooplankton {-}
+### Omnivorous zooplankton {.unnumbered}
 
 No public databases of zooplankton biomass were identified for significant resolution of the SBS region, which is largely unstudied, particularly for certain taxa (Nogueira and Brandini, 2018).
 Recent studies have been conducted over short durations, primarily concentrating on estuarine and coastal areas, such as Santos (Miyashita et al., 2009), Ubatuba (Melo-Junior et al., 2016), and Cabo Frio (Dias et al., 2015).
@@ -1225,35 +1329,62 @@ In the absence of a comprehensive study covering the entire SBS, we opted to use
 Given the consistent SBS zooplankton inshore-offshore gradient, and considering that @gasalla04 study area extends to coastal waters up to 100 m, we multiplied their reported biomass of 10.5 t.kmˆ-2ˆ by the area of their study model (97000 kmˆ2ˆ).
 Additionally, we applied the biomass figure of 3.8 t.kmˆ-2ˆ from @gasalla07, covering depths from 100 to 1000 m, to the remaining area of our model (214733 kmˆ2ˆ).
 @gasalla04 specify that the zooplankton biomass includes copepods, cladocera, chaetognatha, appendicularia, sergestids, luciferids, and salps.
-Thus, combining the findings from both studies, we arrived at a final estimate of 5.88  t.km-² for our domain, allocated to the Omnivorous Zooplankton guild.
+Thus, combining the findings from both studies, we arrived at a final estimate of 5.88 t.km-² for our domain, allocated to the Omnivorous Zooplankton guild.
 
-## Diet proportions {-}
+## Diet proportions {.unnumbered}
 
-We reviewed the dietary preferences of the main seabirds, cetaceans and pinnipeds species occurring in the SBS (see Section X). The dietary proportions identified were subsequently utilised as target data for the fitting process. We then calibrated the resource-consumer matrix of the model using a simulated annealing scheme to align the 2010-2019 model with observed ecosystem state data.
+We reviewed the dietary preferences of the main seabirds, cetaceans and pinnipeds species occurring in the SBS (see Section X).
+The dietary proportions identified were subsequently utilised as target data for the fitting process.
+We then calibrated the resource-consumer matrix of the model using a simulated annealing scheme to align the 2010-2019 model with observed ecosystem state data.
 
-### Seabirds {-}
+### Seabirds {.unnumbered}
 
-Across the studies reviewed, demersal fish is reported as the dominant component of seabird diets in the SBS, generally accounting for over 50% of the prey consumed, followed by small pelagic fishes, cephalopods and/or bivalves. For instance, Branco et al. (2005) found that demersal fish, primarily Sciaenidae, comprised 50% of the diet of *Sula leucogaster*, followed by benthic species such as shrimp with 26.5%, and small pelagic fish like sardines (Clupeidae and Engraulidae) accounting for 23.5%. Similarly, Mancini et al. (2023) reported that demersal species comprised 54.4% of S. leucogaster's diet, while small pelagic fish contributed 42.6%. The diet of *Larus dominicanus* in Paraná, as studied by Miotto et al. (2017), was also dominated by demersal species, with *Paralonchurus brasiliensis* and *Stellifer rastrifer* together accounting for more than 79% of the diet. In Silva-Costa and Bugoni (2013), small demersal fish were the primary prey for *Larus dominicanus*, followed by bivalves. Bugoni and Vooren (2004) highlighted the importance of demersal fish for *Sterna hirundo* during the winter in Rio Grande do Sul, constituting 93% by mass. Likewise, Oliveira et al. (2019) found that the diet of *Nannopterum brasilianus* in Rio Grande do Sul primarily consisted of demersal fish, with occasional consumption of the squid *Doryteuthis plei*. Colabuono and Vooren (2006) also found that demersal fish were significant for albatross species (*Thalassarche spp*.), comprising 47.2% to 100% of their diet, though the diet of petrels (*Procellaria spp.*) was predominantly cephalopods (77.3–95.9%).
+Across the studies reviewed, demersal fish is reported as the dominant component of seabird diets in the SBS, generally accounting for over 50% of the prey consumed, followed by small pelagic fishes, cephalopods and/or bivalves.
+For instance, Branco et al. (2005) found that demersal fish, primarily Sciaenidae, comprised 50% of the diet of *Sula leucogaster*, followed by benthic species such as shrimp with 26.5%, and small pelagic fish like sardines (Clupeidae and Engraulidae) accounting for 23.5%.
+Similarly, Mancini et al. (2023) reported that demersal species comprised 54.4% of S.
+leucogaster's diet, while small pelagic fish contributed 42.6%.
+The diet of *Larus dominicanus* in Paraná, as studied by Miotto et al. (2017), was also dominated by demersal species, with *Paralonchurus brasiliensis* and *Stellifer rastrifer* together accounting for more than 79% of the diet.
+In Silva-Costa and Bugoni (2013), small demersal fish were the primary prey for *Larus dominicanus*, followed by bivalves.
+Bugoni and Vooren (2004) highlighted the importance of demersal fish for *Sterna hirundo* during the winter in Rio Grande do Sul, constituting 93% by mass.
+Likewise, Oliveira et al. (2019) found that the diet of *Nannopterum brasilianus* in Rio Grande do Sul primarily consisted of demersal fish, with occasional consumption of the squid *Doryteuthis plei*.
+Colabuono and Vooren (2006) also found that demersal fish were significant for albatross species (*Thalassarche spp*.), comprising 47.2% to 100% of their diet, though the diet of petrels (*Procellaria spp.*) was predominantly cephalopods (77.3--95.9%).
 
-Numerous studies across the SBS indicate that the prevalence of demersal fish in the diet of seabirds is closely related to fishery discards, particularly from trawl fisheries (Bugoni and Vooren, 2004; Colabuono and Vooren, 2006; Traversi and Vooren, 2010; Carniel and Krul, 2012; Silva-Costa and Bugoni, 2013; Miotto et al., 2017). Carniel and Krul (2012) observed that 90.3% of seabird interactions with fishing operations involved feeding on trawling discards. Colabuono and Vooren (2006) reported that 40% of the fish consumed by seabirds were derived from fishery discards, most of which were juvenile demersal individuals below the marketable size and a large proportion of trawling bycatch. Similarly, Branco (2001) found that in Santa Catarina, discards from seabob shrimp fisheries—mostly small demersal fish—accounted for 84% of the diet of seabirds. Similarly, Traversi and Vooren (2009) found that 80% of the total prey mass consumed by *Sterna hirundo* came from demersal fish discards.
+Numerous studies across the SBS indicate that the prevalence of demersal fish in the diet of seabirds is closely related to fishery discards, particularly from trawl fisheries (Bugoni and Vooren, 2004; Colabuono and Vooren, 2006; Traversi and Vooren, 2010; Carniel and Krul, 2012; Silva-Costa and Bugoni, 2013; Miotto et al., 2017).
+Carniel and Krul (2012) observed that 90.3% of seabird interactions with fishing operations involved feeding on trawling discards.
+Colabuono and Vooren (2006) reported that 40% of the fish consumed by seabirds were derived from fishery discards, most of which were juvenile demersal individuals below the marketable size and a large proportion of trawling bycatch.
+Similarly, Branco (2001) found that in Santa Catarina, discards from seabob shrimp fisheries---mostly small demersal fish---accounted for 84% of the diet of seabirds.
+Similarly, Traversi and Vooren (2009) found that 80% of the total prey mass consumed by *Sterna hirundo* came from demersal fish discards.
 
-Based on the dietary proportions reported in these studies, we assumed that fishery discards account for 50% of the seabird diet, with 30% composed of other demersal fish, 10% of planktivorous fish, 2% migratory fish, and the remaining 8% distributed among squids, CS benthos, and other prey groups ((`r table.ref("diet_tab")`). These proportions were integrated into the target data for our model to better simulate seabird feeding behaviours and interactions with the SBS ecosystem.
+Based on the dietary proportions reported in these studies, we assumed that fishery discards account for 50% of the seabird diet, with 30% composed of other demersal fish, 10% of planktivorous fish, 2% migratory fish, and the remaining 8% distributed among squids, CS benthos, and other prey groups ((`r table.ref("diet_tab")`).
+These proportions were integrated into the target data for our model to better simulate seabird feeding behaviours and interactions with the SBS ecosystem.
 
-### Cetaceans {-}
+### Cetaceans {.unnumbered}
 
-We focused on dolphins diets, as Mysticeti (i.g. humpback whales), do not typically feed during their breeding season or migrations through the SBS. Santos et al. (2002) found that squids was the main prey in the common dolphin (*Delphinus capensis*) and bottlenose dolphin (*Tursiops truncatus*), followed by demersal sciaenid fish, particularly *Stellifer rastrifer*, and shrimps. Similarly, Bassoi et al. (2020) observed that franciscana dolphins (*Pontoporia blainvillei*) in southern Brazil primarily consumed the squid *Loligo sanpaulensis* and demersal fish species such as *Cynoscion guatucupa*. The diet of Guiana dolphins (*Sotalia guianensis*) is also composed of sciaenid fishes such as *Paralonchurus brasiliensis*, and the squid *Doryteuthis plei* (Lopes et al., 2012). Aggregating diet data from Lopes et al. (2012) into the StrathE2E guilds, we find that cephalopods (*Doryteuthis plei* and *Loliguncula brevis*) contributed 36.7% to the diet, while demersal fish (e.g., Sciaenidae, Trichiuridae, Mugilidae) 30.55%, and planktivorous fish (Clupeidae, Engraulidae) represented 32.7%.
+We focused on dolphins diets, as Mysticeti (i.g. humpback whales), do not typically feed during their breeding season or migrations through the SBS.
+Santos et al. (2002) found that squids was the main prey in the common dolphin (*Delphinus capensis*) and bottlenose dolphin (*Tursiops truncatus*), followed by demersal sciaenid fish, particularly *Stellifer rastrifer*, and shrimps.
+Similarly, Bassoi et al. (2020) observed that franciscana dolphins (*Pontoporia blainvillei*) in southern Brazil primarily consumed the squid *Loligo sanpaulensis* and demersal fish species such as *Cynoscion guatucupa*.
+The diet of Guiana dolphins (*Sotalia guianensis*) is also composed of sciaenid fishes such as *Paralonchurus brasiliensis*, and the squid *Doryteuthis plei* (Lopes et al., 2012).
+Aggregating diet data from Lopes et al. (2012) into the StrathE2E guilds, we find that cephalopods (*Doryteuthis plei* and *Loliguncula brevis*) contributed 36.7% to the diet, while demersal fish (e.g., Sciaenidae, Trichiuridae, Mugilidae) 30.55%, and planktivorous fish (Clupeidae, Engraulidae) represented 32.7%.
 
-In the case of franciscana dolphins (Pontoporia blainvillei), Campos et al. (2020) reported that their diet is dominated by the planktivorous fish *Pellona haroweri*, besides squid (*Doryteuthis plei*) and demersal fish (*Isopisthus parvipinnis*), showing a preference for both pelagic and demersal prey. Henning et al. (2018) further supported these findings, noting that the most important species in the diet of franciscana dolphins were *P. harroweri*, *D. plei*, *P. brasiliensis*, and *I. parvipinnis*, with planktivorous prey comprising 34.92%, cephalopods 37.3%, and demersal fish 39.14%. Melo et al. (2009) examined the feeding habits of six delphinid species, were cephalopods—particularly the squid *Loligo plei*—comprised 71.4% of the total prey, while teleosts 28.6%. 
+In the case of franciscana dolphins (Pontoporia blainvillei), Campos et al. (2020) reported that their diet is dominated by the planktivorous fish *Pellona haroweri*, besides squid (*Doryteuthis plei*) and demersal fish (*Isopisthus parvipinnis*), showing a preference for both pelagic and demersal prey.
+Henning et al. (2018) further supported these findings, noting that the most important species in the diet of franciscana dolphins were *P. harroweri*, *D. plei*, *P. brasiliensis*, and *I. parvipinnis*, with planktivorous prey comprising 34.92%, cephalopods 37.3%, and demersal fish 39.14%.
+Melo et al. (2009) examined the feeding habits of six delphinid species, were cephalopods---particularly the squid *Loligo plei*---comprised 71.4% of the total prey, while teleosts 28.6%.
 
-The feeding preference for cephalopods and demersal fish, with a smaller proportion of pelagic fish and CS benthos for some species, was consistently noted across the cetacean species in the reviewed studies. Based on the reported data, we assumed that demersal fish comprises 35% of the cetaceans' diet, planktivorous fish 15%, migratory fish 5%, with the remaining portion distributed among squids, CS benthos, and other prey groups ((`r table.ref("diet_tab")`). These proportions were incorporated into the model to better simulate cetacean feeding behaviours within the SBS ecosystem.
+The feeding preference for cephalopods and demersal fish, with a smaller proportion of pelagic fish and CS benthos for some species, was consistently noted across the cetacean species in the reviewed studies.
+Based on the reported data, we assumed that demersal fish comprises 35% of the cetaceans' diet, planktivorous fish 15%, migratory fish 5%, with the remaining portion distributed among squids, CS benthos, and other prey groups ((`r table.ref("diet_tab")`).
+These proportions were incorporated into the model to better simulate cetacean feeding behaviours within the SBS ecosystem.
 
-### Pinnipeds {-}
+### Pinnipeds {.unnumbered}
 
-Based on stable isotope analysis, Zenteno et al. (2015) found that South American sea lions (*Otaria flavescens*) primarily consumed demersal fish, with juveniles incorporating a higher proportion of pelagic prey compared to adults. Machado et al. (2018) also observed that demersal Sciaenid fish dominated the *O. flavescens* diet (93.37%), with key species including *Paralonchurus brasiliensis*, *Micropogonias furnieri*, and *Macrodon atricauda*. In smaller amounts, migratory fish such *Pomatomus saltatrix* (2.02%) and cephalopods (0.05%) were also recorded.
+Based on stable isotope analysis, Zenteno et al. (2015) found that South American sea lions (*Otaria flavescens*) primarily consumed demersal fish, with juveniles incorporating a higher proportion of pelagic prey compared to adults.
+Machado et al. (2018) also observed that demersal Sciaenid fish dominated the *O. flavescens* diet (93.37%), with key species including *Paralonchurus brasiliensis*, *Micropogonias furnieri*, and *Macrodon atricauda*.
+In smaller amounts, migratory fish such *Pomatomus saltatrix* (2.02%) and cephalopods (0.05%) were also recorded.
 
-In contrast, South American fur seals (*Arctocephalus australis*) were found to predominantly consume coastal small pelagic species, such as *Anchoa marinii* (~55%), demersal fish (mainly sciaenids, ~25%), along with cephalopods (mainly *Doryteuthis sanpaulensis*, ~20%), according to Lima et al. (2023). For sub-Antarctic fur seals (*Arctocephalus tropicalis*), offshore squids such as *Ommastrephes bartramii* and *Illex argentinus* (70.6%) formed the majority of their diet, complemented by pelagic fish such as *Odontesthes bonariensis* (11.8%) and smaller proportions of other prey items.
+In contrast, South American fur seals (*Arctocephalus australis*) were found to predominantly consume coastal small pelagic species, such as *Anchoa marinii* (\~55%), demersal fish (mainly sciaenids, \~25%), along with cephalopods (mainly *Doryteuthis sanpaulensis*, \~20%), according to Lima et al. (2023).
+For sub-Antarctic fur seals (*Arctocephalus tropicalis*), offshore squids such as *Ommastrephes bartramii* and *Illex argentinus* (70.6%) formed the majority of their diet, complemented by pelagic fish such as *Odontesthes bonariensis* (11.8%) and smaller proportions of other prey items.
 
-As *O. flavescens* is the most abundant pinniped in the SBS (see Section X), we primarily based the diet proportions in our model on their feeding habits but also accounted for the importance of small pelagic species and squids in the diet of *A. australis* and *A. tropicalis*. We assumed that 50% of the pinniped diet consists of demersal fish, 20% of pelagic fish, 2% migratory species, and the remaining proportion is distributed among squids and other prey types ((`r table.ref("diet_tab")`).
+As *O. flavescens* is the most abundant pinniped in the SBS (see Section X), we primarily based the diet proportions in our model on their feeding habits but also accounted for the importance of small pelagic species and squids in the diet of *A. australis* and *A. tropicalis*.
+We assumed that 50% of the pinniped diet consists of demersal fish, 20% of pelagic fish, 2% migratory species, and the remaining proportion is distributed among squids and other prey types ((`r table.ref("diet_tab")`).
 
 ```{r diet_cap}
 
@@ -1292,7 +1423,7 @@ tab
 
 ```
 
-## Region harverting ratio {-}
+## Region harverting ratio {.unnumbered}
 
 To derive the regional harvest ratio, we calculated the harvest ratio for each commercial guild by dividing the annual catches (landings + discards) of each guild by the biomass of the compiled commercial species (refer to the catch methodology on page X and biomass methodology on page Y).
 For predator guilds, the annual bycatch value was used instead of the catch value.
@@ -1301,42 +1432,60 @@ The input unit for StrathE2E is the harvesting ratio per day.
 This provided sufficient information to calculate initial values for the scaling parameters linking effort to harvest ratios using the function `e2e_calculate_hrscale()`.
 We estimated the effort-harvest ratio scaling parameters required to produce the best fit to the 2010-2019 target data using the function `e2e_optimize_hr()`.
 
-### Migratory fish {-}
+### Migratory fish {.unnumbered}
 
 According to the most recent assessments, *Katsuwonus pelamis* is neither overfished nor subject to overfishing (ICCAT, 2019a), a finding consistent with other tunas such as albacore (*Thunnus alalunga*) and yellowfin (*Thunnus albacares*) (ICCAT, 2016; 2019b).
 
-To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y). Note that some species (shark species, *Ruvettus pretiosus*, *Lepidocybium flavobrunneum*, *Gempylus sp*.) are part of the harvesting ratio of the guild although it is not harvested. Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 1.39E-04.
+To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y).
+Note that some species (shark species, *Ruvettus pretiosus*, *Lepidocybium flavobrunneum*, *Gempylus sp*.) are part of the harvesting ratio of the guild although it is not harvested.
+Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 1.39E-04.
 
-### Demersal guild {-}
+### Demersal guild {.unnumbered}
 
-Cardoso et al. (2022) reports a continuous decline over the last years in the ratio of annual biomasses to the Bmsy for most of the demersal stocks along the SBS. Despite the steady decline, most demersal stocks could have not collapsed yet likely due to life-history traits that favor resilience, such as early maturation and rapid growth (Chao et al., 2015). For the whitemouth croaker (*M. furnieri*), the most caught demersal species, Pio (2015) indicates relatively sustainable biomass levels in the SBS but unsustainability of the stock in the long term. The OCEANA Fishery Audit 2022 (Perez et al., 2022) and Haimovici et al. (2021) highlights a state of heavy overfishing in recent years, particularly for the South Brazil whitemouth croaker stock. The mullet (*Mugil liza*) is in a similar situation and is considered heavily overfished according to both SAU and OCEANA stock assessments.
+Cardoso et al. (2022) reports a continuous decline over the last years in the ratio of annual biomasses to the Bmsy for most of the demersal stocks along the SBS.
+Despite the steady decline, most demersal stocks could have not collapsed yet likely due to life-history traits that favor resilience, such as early maturation and rapid growth (Chao et al., 2015).
+For the whitemouth croaker (*M. furnieri*), the most caught demersal species, Pio (2015) indicates relatively sustainable biomass levels in the SBS but unsustainability of the stock in the long term.
+The OCEANA Fishery Audit 2022 (Perez et al., 2022) and Haimovici et al. (2021) highlights a state of heavy overfishing in recent years, particularly for the South Brazil whitemouth croaker stock.
+The mullet (*Mugil liza*) is in a similar situation and is considered heavily overfished according to both SAU and OCEANA stock assessments.
 
-To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y). Note that some species (bentho-pelagic and deep-sea species) are part of the harvesting ratio of the guild although it is not harvested. Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 2.36E-04.
+To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y).
+Note that some species (bentho-pelagic and deep-sea species) are part of the harvesting ratio of the guild although it is not harvested.
+Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 2.36E-04.
 
-### Planktivorous fish {-}
+### Planktivorous fish {.unnumbered}
 
-A stock review conducted by OCEANA (2024) reports that the status of small pelagic fish stocks in the SBS remains unknown due to a lack of data. 
+A stock review conducted by OCEANA (2024) reports that the status of small pelagic fish stocks in the SBS remains unknown due to a lack of data.
 
-To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y). Note that some species (*Engraulis anchoita* and mesopelagic planktivorous such as *Maurolicus stehmanni*) are part of the harvesting ratio of the guild although it is not harvested. Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 9.06E-05.
+To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y).
+Note that some species (*Engraulis anchoita* and mesopelagic planktivorous such as *Maurolicus stehmanni*) are part of the harvesting ratio of the guild although it is not harvested.
+Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 9.06E-05.
 
-### Carnivorous and Scavenger Benthos {-}
+### Carnivorous and Scavenger Benthos {.unnumbered}
 
-According to Cardoso et al. (2021), the stocks of *Farfantepenaeus spp*. and *Pleoticus muelleri* are currently overfished in the SBS, but no shrimp species evaluated are currently experiencing overfishing. Data regarding other SBS CS benthos stocks are rare in the literature. 
-To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y). Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 1.77E-05.
+According to Cardoso et al. (2021), the stocks of *Farfantepenaeus spp*.
+and *Pleoticus muelleri* are currently overfished in the SBS, but no shrimp species evaluated are currently experiencing overfishing.
+Data regarding other SBS CS benthos stocks are rare in the literature.
+To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y).
+Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 1.77E-05.
 
-### Suspension and deposit feeders benthos {-}
+### Suspension and deposit feeders benthos {.unnumbered}
 
-Data regarding the SBS SD benthos stocks are rare in the literature. To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y). Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 1.94E-07.
+Data regarding the SBS SD benthos stocks are rare in the literature.
+To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y).
+Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 1.94E-07.
 
-### Carnivorous zooplankton {-}
+### Carnivorous zooplankton {.unnumbered}
 
-Data regarding the SBS CS zooplankton stocks are rare in the literature. To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y). Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 2.73E-06.
+Data regarding the SBS CS zooplankton stocks are rare in the literature.
+To calculate the harvesting ratio, we divided the estimated catch (discussed in Section X) by the estimated biomass of the guild (outlined in Section Y).
+Based on rough estimates derived from catch and biomass data used for model parameterization, we estimated a harvesting ratio for the SBS of 2.73E-06.
 
-### Seabirds, cetaceans and pinnipeds {-}
+### Seabirds, cetaceans and pinnipeds {.unnumbered}
 
-For the top-predators, we performed a rough estimate of the harvesting ratio by dividing the daily bycatch data (as applied in Section X) by the annual biomass estimate (referenced in Section Y). This calculation resulted in a harvesting ratio of 1.64E-05 for seabirds, 2.64E-05 for pinnipeds and 1.90E-06 for cetaceans.
+For the top-predators, we performed a rough estimate of the harvesting ratio by dividing the daily bycatch data (as applied in Section X) by the annual biomass estimate (referenced in Section Y).
+This calculation resulted in a harvesting ratio of 1.64E-05 for seabirds, 2.64E-05 for pinnipeds and 1.90E-06 for cetaceans.
 
-## Ambiental data {-}
+## Ambiental data {.unnumbered}
 
 Chlorophyll were employed as a monthly averaged target data for the primary productivity index.
 Monthly surface chlorophyll concentrations (mg.m^-3^) were sourced from @aquamodis with a 1km resolution, covering the whole SBS model domain and representing the average for the period 2012-2019.
@@ -1345,9 +1494,9 @@ Information on organic nitrogen content in sediments were also useful as target 
 We used data from @mahiques98, who compiled information on organic matter content from projects in the SBS.
 We overlapped these data with sediment maps to determine an average nitrogen content for sand and mud.
 
-# End {-}
+# End {.unnumbered}
 
-### Acknowledgements {-}
+### Acknowledgements {.unnumbered}
 
 Financial support for the development of the Brazilian Shelf implementation of StrathE2E2 came from the European Union's Horizon 2020 research and innovation programme (Mission Atlantic - No. 862428).
 We are grateful to:
@@ -1358,7 +1507,7 @@ We are grateful to:
 
 -   Brazilian Navy Hydrography Center for sending data from the BNDO
 
-### Appendix {-}
+### Appendix {.unnumbered}
 
 [to be completed...]
 
@@ -1583,4 +1732,5 @@ for (group in group_info_page6) {
 gt_table_page6 <- adjust_header(gt_table_page6)
 gt_table_page6
 ```
-## References {-}
+
+## References {.unnumbered}

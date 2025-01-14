@@ -1,0 +1,13 @@
+/Data
+/Objects
+/results
+/StrathE2E
+/Figures/NEMO-MEDUSA/grids
+/Papers
+/R scripts/R-chive
+/Implementation doc/Draft1.html
+/Implementation doc/Draft1.pdf
+.Rproj.user
+.Rhistory
+.Ruserdata
+Project runtime.png
